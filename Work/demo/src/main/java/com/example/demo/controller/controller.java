@@ -22,5 +22,6 @@ public class controller {
     public String index(){
         return "index";
     }
+
     
 }
