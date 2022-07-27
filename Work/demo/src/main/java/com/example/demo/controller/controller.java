@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 public class controller {
@@ -16,9 +18,9 @@ public class controller {
         return String.format("hello %s!!", name);
     }
 
-    @GetMapping("/message")
-    public String message(Model model){
-        model.addAttribute("message", "This is a custom message");
-        return "message";
+    @RequestMapping(value="/", method={RequestMethod.GET, RequestMethod.POST} )
+    public String index(){
+        return "index";
     }
+    
 }
