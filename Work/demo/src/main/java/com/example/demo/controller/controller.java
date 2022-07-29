@@ -36,9 +36,9 @@ public class controller{
     @ResponseBody
     public GetTimeAPIRESParams getTime(GetTimeAPIREQParams params) {
         log.info("Enter getTime :" + params.toString()); // 터미널에 파라미터가 잘 들어오는지 로그 찍기
-        GetTimeAPIRESParams resParams = new GetTimeAPIRESParams(); // RES -> resParams
-        resParams.setTimezone(params.getTimezone()); // res -> timezone
-        resParams.setDatetime("  "); // res -> datatime
+        GetTimeAPIRESParams resParams = new GetTimeAPIRESParams();
+        resParams.setTimezone(params.getTimezone());
+        resParams.setDatetime("Asia/Seoul Time");
         return resParams;
     }
     
