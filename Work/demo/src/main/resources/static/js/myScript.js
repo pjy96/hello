@@ -75,19 +75,16 @@ function deleteArray(idx){
 // ajax로 서버시간 호출하기
 setInterval(function request_time() {
     $.ajax({
-        //Get 방식
         type: "GET", 
-        url: "http://worldtimeapi.org/api/timezone/Asia/Seoul",
-        //호출 성공했을때
-        success: function(res){
+        url: "http://localhost:8080/api/getTime",
+        success: function(res){ //호출 성공했을때
             const time = document.getElementById("time"); //time 출력창
             var getTime = res.datetime; //worldtimeapi 중 datetime 추출
             var setDay = getTime.substring(0,10); // 전체 문자열 중 날짜에 해당
             var setTime = getTime.substring(11,19); // 전체 문자열 중 시간에 해당
             time.innerText = setDay + " " + setTime; // 최종 time 출력
         },
-        //호출 error
-        error:  function(){
+        error:  function(){ //호출 error
             alert("Fail");
         } 
     })

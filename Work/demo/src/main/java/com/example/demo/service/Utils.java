@@ -1,28 +1,28 @@
 package com.example.demo.service;
 
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 import org.springframework.stereotype.Service;
+import com.example.demo.dto.GetTimeAPIRESParams;
 
 @Service
 public class Utils {
 
-    public void getTime() { // datetime 불러오는 function
+    public GetTimeAPIRESParams getTimeWithZone(String timeZone){
 
-        // 입력 받은 timezone 있으면 그 도시 return datetime
-        //                    없으면 default seoul time
+        GetTimeAPIRESParams resParams = new GetTimeAPIRESParams();
+        TimeZone tz;
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        LocalDateTime now = LocalDateTime.now(); // 현재 날짜와 시간
-        DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("yyyy-mm-dd a hh:mm:ss"); // 시간 형식 지정
-        String nowString = now.format(dateformat);
+        tz = TimeZone.getTimeZone(timeZone);
+        df.setTimeZone(tz);
 
-        System.out.println("Now in Seoul id " + now);
-
-
-        
+        resParams.setTimezone(timeZone);
+        resParams.setDatetime(df.format(date));
+        return resParams;
     }
     
 }
