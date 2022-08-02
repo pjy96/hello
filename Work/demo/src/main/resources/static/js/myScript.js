@@ -27,12 +27,33 @@ function printResult(inputbar){
     }
 }
 
+function reqIPEmail() {
+    $.ajax({
+        type: "GET", 
+        url: "http://localhost:8080/api/testipemail", // api testipemail
+        data:{  // url 요청 시 보낼 파라미터
+           
+        },
+        success: function(res){ // 호출 성공했을때
+
+            var result = document.getElementById("result"); // 검색결과 출력창
+            var regIE = res.result; // api/testipemail 중 result 추출
+            result.innerHTML = regIE; // 입력받은 API에서 최종 결과 출력
+
+            
+        },
+        error:  function(){ // 호출 error시 alert Fail
+            alert("Fail");
+        } 
+    })
+}
+
 /* 입력받은 값 배열에 저장 -> 양식에 맞게 출력 */
 function printArray(resultString){
 
-    var inputbar = document.getElementById("inputbar").value; /* 입력 받은 내용*/
-    var result = document.getElementById("result"); /* 검색결과 출력창*/
-    var element = document.getElementById("time"); /* div time (현재시간) */
+    var inputbar = document.getElementById("inputbar").value; // 입력 받은 내용*
+    var result = document.getElementById("result"); // 검색결과 출력창
+    var element = document.getElementById("time"); // div time (현재시간 innerHTML)
 
     // 출력창 초기화
     result.innerHTML = ""; 
@@ -76,15 +97,18 @@ function deleteArray(idx){
 setInterval(function request_time() {
     $.ajax({
         type: "GET", 
-        url: "http://localhost:8080/api/getTime",
+        url: "http://localhost:8080/api/getTime", // api getTime
+        data:{  // url 요청 시 보낼 파라미터
+            timezone:"Asia/Seoul", 
+            datetime:"http://localhost:8080/api/getTime?timezone=Asia/Seoul"
+        },
         success: function(res){ //호출 성공했을때
             const time = document.getElementById("time"); //time 출력창
-            var getTime = res.datetime; //worldtimeapi 중 datetime 추출
-            var setDay = getTime.substring(0,10); // 전체 문자열 중 날짜에 해당
-            var setTime = getTime.substring(11,19); // 전체 문자열 중 시간에 해당
-            time.innerText = setDay + " " + setTime; // 최종 time 출력
+            var getCity = res.timezone; // api/getTime 중 도시 이름 추출
+            var getTime = res.datetime; // api/getTime 중 datetime 추출
+            time.innerText = getCity + " " + getTime; // 최종 time 출력
         },
-        error:  function(){ //호출 error
+        error:  function(){ //호출 error시 alert Fail
             alert("Fail");
         } 
     })
