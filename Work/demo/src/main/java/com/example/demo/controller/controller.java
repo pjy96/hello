@@ -4,14 +4,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.dto.GetIPEmailREQParams;
 import com.example.demo.dto.GetIPEmailRESPArams;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.service.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -56,7 +54,7 @@ public class controller{
     @ResponseBody
     public GetIPEmailRESPArams TestIPEmail(String input){ // IP, Email Vaildation api
 
-        
+    
         return utils.TestValidation(input);
 
     }

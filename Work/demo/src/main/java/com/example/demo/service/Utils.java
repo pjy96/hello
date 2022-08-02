@@ -48,7 +48,10 @@ public class Utils {
         /* Email 정규식 */
         String regEmail = "^\\w+@\\w+\\.[0-9a-zA-Z]+$";
 
-        var result = Pattern.matches(regIp, input); // regIP 와 input 비교
+        var resultIP = Pattern.matches(regIp, input); // regIP 와 input 비교
+        var resultEmail = Pattern.matches(regEmail, input); // regEmail 과 input 비교
+
+        
         return resinput;
     }
 
