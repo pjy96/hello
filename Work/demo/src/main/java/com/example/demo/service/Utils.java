@@ -51,7 +51,8 @@ public class Utils {
         var resultIP = Pattern.matches(regIp, input); // regIP 와 input 비교
         var resultEmail = Pattern.matches(regEmail, input); // regEmail 과 input 비교
 
-        
+        //@ModelAttribute : View 에서 넘어온 parameter를 DTO로 받을 수 있음
+
         return resinput;
     }
 
