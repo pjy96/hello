@@ -5,24 +5,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
+import java.util.regex.*;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.Validate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.dto.GetIPEmailREQParams;
 import com.example.demo.dto.GetIPEmailRESPArams;
 import com.example.demo.dto.GetTimeAPIRESParams;
-import com.fasterxml.jackson.annotation.JacksonInject.Value;
-
-import lombok.var;
 
 @Service
 public class Utils {
 
+    // world time api
     public GetTimeAPIRESParams getTimeWithZone(String timeZone){ // api/getTime
 
         GetTimeAPIRESParams resParams = new GetTimeAPIRESParams();
@@ -36,24 +30,35 @@ public class Utils {
         // api/getTime에 저장할 정보
         resParams.setTimezone(timeZone); // timezone    
         resParams.setDatetime(df.format(date)); // datetime
+
         return resParams;
+
     }
 
-    public GetIPEmailRESPArams TestValidation(String input) {
+    // Regex api
+    public GetIPEmailRESPArams getVaildation(String input) {
 
-        GetIPEmailRESPArams resinput = new GetIPEmailRESPArams();
+        GetIPEmailRESPArams resRegex = new GetIPEmailRESPArams();
 
-        /* IP 정규식 */
-        String regIp = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"; 
-        /* Email 정규식 */
-        String regEmail = "^\\w+@\\w+\\.[0-9a-zA-Z]+$";
+        // IP Regex
+        // Pattern p = Pattern.compile("^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+        // // Email Regex
+        // //Pattern regEmail = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+$");
+        // Matcher m = p.matcher(input);
+        // boolean b = m.matches();
 
-        var resultIP = Pattern.matches(regIp, input); // regIP 와 input 비교
-        var resultEmail = Pattern.matches(regEmail, input); // regEmail 과 input 비교
 
-        //@ModelAttribute : View 에서 넘어온 parameter를 DTO로 받을 수 있음
 
-        return resinput;
+        resRegex.setInput(input);
+        // resRegex.setResult(b);
+        
+        return resRegex;
+
     }
+    // 삭제 API 만들기
+    // @Test
+    // public void removetest(){
+    //     assertTrue(testService, numberCompare(2,1));
+    // }
 
 }

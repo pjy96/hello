@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" type="text/css"> <!--css호출-->
+    <script src="js/myScript.js"></script> <!--js 호출-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!--googlo font 호출-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!--googlo font 호출-->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Gowun+Dodum&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet"> <!--googlo font 호출-->
+    <script src="https://kit.fontawesome.com/efcb98e1c1.js" crossorigin="anonymous"></script> <!--아이콘 fontawesome kit-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!--jQuery 호출-->
+    <title>IP/Email Validation2</title>
+</head>
+<body>
+
+    <p class="Now">현재 시간 >> </p> <!--현재 시간:-->
+    <p id="time" class="time"></p> <!-- servertime 출력 -->
+    <div class="IpEmail">
+        <h2>Enter your IP or Email : </h2>
+        <input id="inputbar" type="text" placeholder="Type in..." onkeyup="printResult()"> <!--검색바 : enter를 눌렀을때 function 실행-->
+        <button class="button"><i class="fas fa-keyboard"></i></button> <!--검색바 왼쪽의 키보드 아이콘-->
+        <button class="close" onclick="fClose()"><i class="fa-solid fa-xmark"></i></button> <!--검색바 오른쪽의 x 표시 : 검색중인 내용 삭제-->
+        <!-- 결과 출력창 -->
+        <div>
+            <p id="eTime" class="eTime"></p> <p id="result" class="result"></p>
+        </div>
+    </div>
+
+</body>
+</html>

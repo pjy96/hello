@@ -1,15 +1,18 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.example.demo.dto.GetIPEmailRESPArams;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.service.Utils;
+import java.awt.event.KeyEvent;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,32 +34,30 @@ public class controller{
         return "index.html"; // index.html 호출
     }
 
+    // worldtimeapi
     @GetMapping(value="/api/getTime")
     @ResponseBody
     public GetTimeAPIRESParams getTime(GetTimeAPIREQParams params){ // time api
+
         String getTimeZone = params.getTimezone();
         if(getTimeZone == null){ // default Asia/Seoul
             getTimeZone="Asia/Seoul";
         }
         return utils.getTimeWithZone(getTimeZone); // service 호출
+
     }
 
     // 정규식 validation 하는 API만들기
-    /*
-     * enter 눌렀을 때 api 실행
-     * 배열 없이 일단 출력
-     * service에서 return
-     * 
-     * param 던지는 방법 연습하는 것 
-     * 
-     */
-    @RequestMapping(value = "/api/testipemail", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public GetIPEmailRESPArams TestIPEmail(String input){ // IP, Email Vaildation api
+    public GetIPEmailRESPArams TestIPEmail(GetIPEmailRESPArams input){ // IP, Email Vaildation api
 
+        // String getReg = input.getInput();
+        // if(getReg == null){ // default 설정
+        //     getReg = "None";
+        // }
+        return utils.getVaildation(input); // service 호출
     
-        return utils.TestValidation(input);
-
     }
     
 }

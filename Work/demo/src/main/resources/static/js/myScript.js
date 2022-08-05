@@ -27,22 +27,16 @@ function printResult(inputbar){
     }
 }
 
-function reqIPEmail() {
+function reqIPEmail() { // 정규식 test api 호출
     $.ajax({
         type: "GET", 
-        url: "http://localhost:8080/api/testipemail", // api testipemail
-        data:{  // url 요청 시 보낼 파라미터
-           
-        },
+        url: "http://localhost:8080/api//reg", // api reg
         success: function(res){ // 호출 성공했을때
-
             var result = document.getElementById("result"); // 검색결과 출력창
-            var regIE = res.result; // api/testipemail 중 result 추출
+            var regIE = res.result; // api/reg 중 result 추출
             result.innerHTML = regIE; // 입력받은 API에서 최종 결과 출력
-
-            
         },
-        error:  function(){ // 호출 error시 alert Fail
+        error:  function(){ // 호출 error시 alert 오류발생
             alert("Fail");
         } 
     })
@@ -104,9 +98,8 @@ setInterval(function request_time() {
         },
         success: function(res){ //호출 성공했을때
             const time = document.getElementById("time"); //time 출력창
-            var getCity = res.timezone; // api/getTime 중 도시 이름 추출
             var getTime = res.datetime; // api/getTime 중 datetime 추출
-            time.innerText = getCity + " " + getTime; // 최종 time 출력
+            time.innerText = getTime; // 최종 time 출력
         },
         error:  function(){ //호출 error시 alert Fail
             alert("Fail");
