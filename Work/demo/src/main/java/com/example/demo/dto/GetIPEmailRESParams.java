@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetIPEmailRESPArams {
+public class GetIPEmailRESParams {
 
     String input;
     String result;
-    public void setResult(boolean resultIP) {
-    }
+
+    
 }
