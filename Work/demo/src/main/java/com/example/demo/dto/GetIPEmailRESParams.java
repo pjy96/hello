@@ -10,5 +10,4 @@ public class GetIPEmailRESParams {
     String input;
     String result;
 
-    
 }

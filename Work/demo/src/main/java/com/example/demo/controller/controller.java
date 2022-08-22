@@ -50,6 +50,7 @@ public class controller{
     @ResponseBody
     public GetIPEmailRESParams TestIPEmail(@RequestParam String params){
         return utils.getVaildation(params); // service 호출
-    }   
+    }    
+       
     
 }
