@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class Utils {
 
     static ArrayList<String> resultArr = new ArrayList<String>(5);
+    static String resultArray = new String();
 
     // world time api
     public GetTimeAPIRESParams getTimeWithZone(String timeZone){ // api/getTime
@@ -64,9 +65,8 @@ public class Utils {
         //resRegex.setResult(resultArr + "<br>");
 
         for(int i=0; i<5; i++){
-            result = resultArr.get(i) + "<br>";
-            
-            //resultArr += resultArr
+            resultArray = resultArr.get(i) + "<br>";
+            resRegex.setResult(resultArray);
         }
 
         return resRegex;
