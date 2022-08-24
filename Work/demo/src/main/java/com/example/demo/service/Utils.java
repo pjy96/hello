@@ -69,7 +69,7 @@ public class Utils {
         //배열에 저장하고 출력
        
         // for(int i=0; i<resultArr.size(); i++){
-
+            
         // }
 
         // for(String n: resultArr){ //for-each문 같은 역할
