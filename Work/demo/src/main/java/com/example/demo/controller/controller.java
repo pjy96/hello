@@ -49,7 +49,7 @@ public class controller{
     @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public GetIPEmailRESParams TestIPEmail(@RequestParam String params){
-        return utils.getVaildation(params); // service 호출
+        return utils.getVaildation(params);
     }    
        
     

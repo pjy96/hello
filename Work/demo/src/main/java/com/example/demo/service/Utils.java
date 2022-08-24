@@ -9,15 +9,12 @@ import java.util.regex.*;
 
 import com.example.demo.dto.GetIPEmailRESParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
-
-
 import org.springframework.stereotype.Service;
 
 @Service
 public class Utils {
 
     static ArrayList<String> resultArr = new ArrayList<String>(5);
-    static String resultArray = new String();
 
     // world time api
     public GetTimeAPIRESParams getTimeWithZone(String timeZone){ // api/getTime
@@ -40,6 +37,8 @@ public class Utils {
     public GetIPEmailRESParams getVaildation(String params) {
         
         GetIPEmailRESParams resRegex = new GetIPEmailRESParams();
+        String str = "";
+        resRegex.setInput(params); // input : 
 
         // IP Regex
         Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
@@ -58,17 +57,29 @@ public class Utils {
             resultArr.add(params + " is Invalid Format" + "<br>");
         }
 
+        // 5개 이상일때 처음 항목 삭제
         if(resultArr.size()>5){
-            resultArr.remove(5);
-        }
-        resRegex.setInput(params);
-        //resRegex.setResult(resultArr + "<br>");
-
-        for(int i=0; i<5; i++){
-            resultArray = resultArr.get(i) + "<br>";
-            resRegex.setResult(resultArray);
+            resultArr.remove(0);
         }
 
+        String[] strArr = resultArr.toArray(new String[0]); // arrayList to array
+        for(String n:strArr){
+            resRegex.setResult(n);
+        }
+        //배열에 저장하고 출력
+       
+        // for(int i=0; i<resultArr.size(); i++){
+
+        // }
+
+        // for(String n: resultArr){ //for-each문 같은 역할
+        //     resRegex.setResult(n);
+        // }
+        
+        for(int i=0; i<resultArr.size(); i++){
+            str = resultArr + "<button class=del onclick=\"deleteArray("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button>";
+            resRegex.setResult(str);
+        }
         return resRegex;
 
     }

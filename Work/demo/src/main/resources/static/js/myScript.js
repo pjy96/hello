@@ -64,3 +64,31 @@ function deleteArray(idx){
         result.innerHTML += arr[i] + "<button class=del onclick=\"deleteArray("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
     }
 }
+
+/* 입력받은 값 배열에 저장 -> 양식에 맞게 출력 */
+// function printArray(resultString){
+
+//     var inputbar = document.getElementById("inputbar").value; // 입력 받은 내용*
+//     var result = document.getElementById("result"); // 검색결과 출력창
+//     var element = document.getElementById("time"); // div time (현재시간 innerHTML)
+
+//     // 출력창 초기화
+//     result.innerHTML = ""; 
+//     eTime.innerHTML = "";
+
+//     t = element.innerHTML + " | "; // 저장할 문자열 중 현재 시간
+//     s = inputbar + resultString; // 저장할 문자열 중 유효성검사 결과
+
+//     arrElement.unshift(t);
+//     arr.unshift(s); // 문자열을 배열에 저장(가장 최근 데이터가 위로 오게)
+
+//     if(arr.length > 5){ // 배열의 길이가 5를 넘지 않게
+//         arr.pop(); // 가장 오래된 데이터 삭제
+//         arrElement.pop();
+//     }
+//     for(var i=0; i<arr.length; i++){ // 문자열 저장한 배열 + 삭제버튼 + 개행
+//         eTime.innerHTML += arrElement[i] + "<br>";
+//         result.innerHTML += arr[i] + "<button class=del onclick=\"deleteArray("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+//     }
+
+// }
