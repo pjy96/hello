@@ -7,6 +7,6 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class GetTimeAPIREQParams { // 요청받은 parameter 정의
+public class GetTimeAPIREQParams {
     String timezone;
 }

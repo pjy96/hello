@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class GetTimeAPIRESParams { // 응답할 parameter 정의
+public class GetTimeAPIRESParams {
     String timezone;
     String datetime;
 }

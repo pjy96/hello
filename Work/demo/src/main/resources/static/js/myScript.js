@@ -47,23 +47,50 @@ function reqIPEmail() { // 정규식 test api 호출
         })
     }
 }
-
+//삭제 하기!!!!---------------------------
+function delResult(idx){
+    $.ajax({
+        type: "DELETE", 
+        url: url,
+        success: function(idx){
+            //const result = document.getElementById("result"); // result 출력창
+            resultArr(idx)
+            remove
+        },
+        error:  function(){ // error시 alert 실패
+            alert("삭제 실패");
+        } 
+    })
+}
 /* 삭제버튼 function */
 function deleteArray(idx){
 
-    // 배열의 idx번째 내용 삭제
-    arr.splice(idx,1); 
-    arrElement.splice(idx,1);
+    resultArr.splice(idx,1); 
 
-     // 출력창 초기화
     result.innerHTML = ""; 
-    eTime.innerHTML = "";
 
-    for(var i=0; i<arr.length; i++){ // 재출력
-        eTime.innerHTML += arrElement[i] + "<br>";
-        result.innerHTML += arr[i] + "<button class=del onclick=\"deleteArray("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+    for(var i=0; i<resultArr.size(); i++){ // 재출력
+        str += resultArr.get(i) + "<button class=del onclick=\"deleteArray("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
     }
+
 }
+
+// 삭제버튼 function
+// function deleteArray(idx){
+
+//     // 배열의 idx번째 내용 삭제
+//     arr.splice(idx,1); 
+//     arrElement.splice(idx,1);
+
+//      // 출력창 초기화
+//     result.innerHTML = ""; 
+//     eTime.innerHTML = "";
+
+//     for(var i=0; i<arr.length; i++){ // 재출력
+//         eTime.innerHTML += arrElement[i] + "<br>";
+//         result.innerHTML += arr[i] + "<button class=del onclick=\"deleteArray("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+//     }
+// }
 
 /* 입력받은 값 배열에 저장 -> 양식에 맞게 출력 */
 // function printArray(resultString){
