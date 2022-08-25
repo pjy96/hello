@@ -52,7 +52,7 @@ public class Utils {
 
         // insert array
         if(bIp){
-            resultArr.add(0, resParams.datetime + params + " is IP");
+            resultArr.add(0, params + " is IP");
         }else if(bEmail){
             resultArr.add(0, params + " is Email");
         }else{
