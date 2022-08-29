@@ -7,10 +7,9 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.*;
 
-import com.example.demo.dto.GetIPEmailRESParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
+import com.example.demo.dto.RegexDTO;
 import com.example.demo.dto.deleteDTO;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.StringIdGenerator;
 
 import org.springframework.stereotype.Service;
 
@@ -37,9 +36,9 @@ public class Utils {
     }
 
     // Regex api & print array
-    public GetIPEmailRESParams getVaildation(String params) {
+    public RegexDTO getVaildation(String params) {
         
-        GetIPEmailRESParams resRegex = new GetIPEmailRESParams();
+        RegexDTO resRegex = new RegexDTO();
         resRegex.setInput(params);
         // IP Regex
         Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
@@ -54,11 +53,9 @@ public class Utils {
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = "";
-        String result = "";
         String time = df.format(date) + " | ";
-        time = "<p class=csstime>"+time+"</p>";
-        
-        // insert array
+        time = "<p class=csstime>"+time+"</p>"; // 입력받은 timezone css
+        // insert regex array
         if(bIp){
             resultArr.add(0, time + params + " is IP");
         }else if(bEmail){
@@ -70,6 +67,7 @@ public class Utils {
         if(resultArr.size()>5){
             resultArr.remove(5);
         }
+        // string으로 배열 출력
         for(int i=0; i<resultArr.size(); i++){
             str += resultArr.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
         }
@@ -77,20 +75,17 @@ public class Utils {
         return resRegex;
     }
 
+    //delete api
     public deleteDTO deleteArray(int idx) {
         
         deleteDTO delResult = new deleteDTO();
         String str = "";
-
-        resultArr.remove(idx);
-
-        for(int i=0; i<resultArr.size(); i++){
+        resultArr.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
+        for(int i=0; i<resultArr.size(); i++){ // 삭제 후 배열 재출력
             str += resultArr.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
         }
-        
         delResult.setIdx(idx);
         delResult.setResult(str);
         return delResult;
     }
-
 }

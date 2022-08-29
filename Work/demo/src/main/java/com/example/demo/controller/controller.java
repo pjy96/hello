@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.dto.GetIPEmailRESParams;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
+import com.example.demo.dto.RegexDTO;
 import com.example.demo.dto.deleteDTO;
 import com.example.demo.service.Utils;
 
@@ -51,15 +49,16 @@ public class controller{
     // 정규식 validation 하는 API
     @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public GetIPEmailRESParams TestIPEmail(@RequestParam String params){
+    public RegexDTO TestIPEmail(@RequestParam String params){
         return utils.getVaildation(params);
     }
 
     // 삭제 API
-    @RequestMapping(value="/api/del", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/api/del", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public deleteDTO DeleteArray(@PathVariable int idx) {
+    public deleteDTO DeleteArray(@RequestParam int idx) {
         return utils.deleteArray(idx);
     }
+
     
 }
