@@ -9,6 +9,8 @@ import java.util.regex.*;
 
 import com.example.demo.dto.GetIPEmailRESParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
+import com.example.demo.dto.deleteDTO;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators.StringIdGenerator;
 
 import org.springframework.stereotype.Service;
 
@@ -38,9 +40,7 @@ public class Utils {
     public GetIPEmailRESParams getVaildation(String params) {
         
         GetIPEmailRESParams resRegex = new GetIPEmailRESParams();
-        String str = "";
         resRegex.setInput(params);
-
         // IP Regex
         Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
         Matcher mIp = regIp.matcher(params);
@@ -49,30 +49,48 @@ public class Utils {
         Pattern regEmail = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+$"); 
         Matcher mEmail = regEmail.matcher(params);
         boolean bEmail = mEmail.matches();
-
+        // TimeZone 
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String str = "";
+        String result = "";
+        String time = df.format(date) + " | ";
+        time = "<p class=csstime>"+time+"</p>";
+        
         // insert array
         if(bIp){
-            resultArr.add(0, params + " is IP");
+            resultArr.add(0, time + params + " is IP");
         }else if(bEmail){
-            resultArr.add(0, params + " is Email");
+            resultArr.add(0, time + params + " is Email");
         }else{
-            resultArr.add(0, params + " is Invalid Format");
+            resultArr.add(0, time + params + " is Invalid Format");
         }
         // 5개 이상일때 처음 항목 삭제
         if(resultArr.size()>5){
             resultArr.remove(5);
         }
         for(int i=0; i<resultArr.size(); i++){
-            // 앞에 현재 시간 불러와서 넣기
-            str += resultArr.get(i) + "<button class=del onclick=\"deleteArray("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+            str += resultArr.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
         }
         resRegex.setResult(str);
         return resRegex;
-
     }
 
+    public deleteDTO deleteArray(int idx) {
+        
+        deleteDTO delResult = new deleteDTO();
+        String str = "";
 
+        resultArr.remove(idx);
+
+        for(int i=0; i<resultArr.size(); i++){
+            str += resultArr.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+        }
+        
+        delResult.setIdx(idx);
+        delResult.setResult(str);
+        return delResult;
+    }
 
 }
-
-// 삭제버튼 구현

@@ -75,32 +75,28 @@ input:hover{ /* 검색바에 마우스포인터가 올라왔을때, 클릭했을
     position:  absolute;
     margin: 0;
 }
-.result{ /* 결과 출력 창 위치와 폰트 설정 */
+.result{ 
     position:  absolute;
     color: black;
     font-size: 14px;
-    font-weight: 500;
-    width: 250px;
+    width: 400px;
     margin: 10px;
     padding: 5px; 
-    display: inline-block; 
-    left: 145px;
 }
-.eTime{ /* 결과 출력 창 중 시간 */
-    display: inline-block; 
-    position: absolute;
-    color: cornflowerblue;
+.csstime{
+    display: inline-block;
     font-size: 14px;
     font-weight: 700;
-    margin: 10px;
-    padding: 5px; 
+    width: 145px;
+    color: cornflowerblue;
+    margin: 2px;
 }
-.del{ /* 출력창에 생성되는 삭제버튼 */
+.del{
     float: right; /* 오른쪽 정렬 */
     border: none;
     background: transparent;
     color: rgb(154, 154, 154);
-    cursor: pointer; /* 마우스 다가가면 모양 변화 */
+    cursor: pointer;
 }
 .del:hover,
 .del:focus{ /* 삭제버튼 마우스 가까이 갔을 때, 클릭했을 때 */
