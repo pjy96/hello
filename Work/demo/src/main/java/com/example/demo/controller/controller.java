@@ -10,9 +10,14 @@ import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
 import com.example.demo.service.Utils;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.java.Log;
 
+import javax.naming.spi.DirStateFactory.Result;
+
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,13 +39,20 @@ public class controller{
     }
 
     // index.html 호출
+    // @RequestMapping(value = "/")
+    // public String index(HttpSession session) {
+    //     log.info("[Index HTML Call] " + session.getId());
+    //     return "index.html"; 
+    // }
+
+    // index.html 호출
     @RequestMapping(value = "/")
     public String index(HttpSession session) {
+
         log.info("[Index HTML Call] " + session.getId());
-        
         return "index.html"; 
-        
     }
+
 
     // worldtimeapi
     @GetMapping("/api/getTime")
