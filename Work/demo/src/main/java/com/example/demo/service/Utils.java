@@ -7,16 +7,16 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.*;
 
+import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
-import com.example.demo.dto.deleteDTO;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class Utils {
 
-    static ArrayList<String> resultArr = new ArrayList<String>();
+    ArrayList<String> resultArr = new ArrayList<String>();
 
     // world time api
     public GetTimeAPIRESParams getTimeWithZone(String timeZone){ // api/getTime
@@ -25,7 +25,6 @@ public class Utils {
         TimeZone tz;
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // datetime 출력형식
-
         tz = TimeZone.getTimeZone(timeZone);
         df.setTimeZone(tz);
 
@@ -76,15 +75,14 @@ public class Utils {
     }
 
     //delete api
-    public deleteDTO deleteArray(int idx) {
-        
-        deleteDTO delResult = new deleteDTO();
+    public DeleteDTO deleteArray(int idx) {
+
+        DeleteDTO delResult = new DeleteDTO();
         String str = "";
         resultArr.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
         for(int i=0; i<resultArr.size(); i++){ // 삭제 후 배열 재출력
             str += resultArr.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
         }
-        delResult.setIdx(idx);
         delResult.setResult(str);
         return delResult;
     }

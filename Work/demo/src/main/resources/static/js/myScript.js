@@ -44,7 +44,7 @@ function reqIPEmail() { // 정규식 test api 호출
 function delResult(idx){
     $.ajax({
         type: "GET", 
-        url: "http://localhost:8080/api/del?idx=" + idx, // arrat(idx) 삭제
+        url: "http://localhost:8080/api/del?idx=" + idx, // array(idx) 삭제
         success: function(idx){
             const result = document.getElementById("result"); // result 출력창
             result.innerHTML = idx.result; // 삭제 후 재출력

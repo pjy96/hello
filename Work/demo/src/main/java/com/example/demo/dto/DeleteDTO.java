@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class deleteDTO {
-    int idx;
+public class DeleteDTO {
     String result;
 }
