@@ -47,8 +47,12 @@ public class controller{
 
     // index.html 호출
     @RequestMapping(value = "/")
-    public String index(HttpSession session) {
+    public String index(HttpSession session, HttpServletRequest request) {
 
+        if(object == null){}
+        
+        HttpSession session = request.getSession(); // 세션 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        
         log.info("[Index HTML Call] " + session.getId());
         return "index.html"; 
     }
