@@ -10,14 +10,17 @@ import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
 import com.example.demo.service.Utils;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.java.Log;
 
-import javax.naming.spi.DirStateFactory.Result;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,24 +42,15 @@ public class controller{
     }
 
     // index.html 호출
-    // @RequestMapping(value = "/")
-    // public String index(HttpSession session) {
-    //     log.info("[Index HTML Call] " + session.getId());
-    //     return "index.html"; 
-    // }
-
-    // index.html 호출
     @RequestMapping(value = "/")
     public String index(HttpSession session, HttpServletRequest request) {
-
-        if(session == null){}
-    
-        HttpSession session2 = request.getSession(); // 세션 있으면 있는 세션 반환, 없으면 신규 세션 생성
-        
-        log.info("[Index HTML Call] " + session.getId());
+        log.info("[Index HTML Call] | " + session.getId()); // getId
+        if (session.getAttribute("regArray") == null){ // regArray에 바인딩 된 객체를 돌려주고, 없다면 null
+            ArrayList<String> regArray = new ArrayList<String>(); // 배열 
+            session.setAttribute("regArray", regArray); // 객체 생성
+        }
         return "index.html"; 
     }
-
 
     // worldtimeapi
     @GetMapping("/api/getTime")
@@ -72,15 +66,20 @@ public class controller{
     // 정규식 validation 하는 API
     @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public RegexDTO TestIPEmail(@RequestParam String params){
-        return utils.getVaildation(params);
+    public RegexDTO TestIPEmail(@RequestParam String params, HttpServletRequest request){
+        Object obj = request.getAttribute("regArray");
+        // List<String> arrList = Arrays.asList(obj);
+        List<String> arrList = (List<String>)obj;
+        return utils.getVaildation(params, arrList);
     }
 
     // 삭제 API
     @RequestMapping(value = "/api/del", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public DeleteDTO DeleteArray(@RequestParam int idx) {
-        return utils.deleteArray(idx);
+    public DeleteDTO DeleteArray(@RequestParam int idx, HttpServletRequest request) {
+        Object obj = request.getAttribute("regArray");
+        List<String> arrList = (List<String>)obj;
+        return utils.deleteArray(idx, arrList);
     }
 
 }

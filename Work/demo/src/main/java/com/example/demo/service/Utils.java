@@ -2,21 +2,19 @@ package com.example.demo.service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.*;
 
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
-
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class Utils {
-
-    ArrayList<String> resultArr = new ArrayList<String>();
 
     // world time api
     public GetTimeAPIRESParams getTimeWithZone(String timeZone){ // api/getTime
@@ -35,7 +33,9 @@ public class Utils {
     }
 
     // Regex api & print array
-    public RegexDTO getVaildation(String params) {
+    public RegexDTO getVaildation(String params, List<String> regArray) {
+        
+        //List<String> temp = (List<String>) regArray;
         
         RegexDTO resRegex = new RegexDTO();
         resRegex.setInput(params);
@@ -56,34 +56,35 @@ public class Utils {
         time = "<p class=csstime>"+time+"</p>"; // 입력받은 timezone css
         // insert regex array
         if(bIp){
-            resultArr.add(0, time + params + " is IP");
+            regArray.add(0, time + params + " is IP");
         }else if(bEmail){
-            resultArr.add(0, time + params + " is Email");
+            regArray.add(0, time + params + " is Email");
         }else{
-            resultArr.add(0, time + params + " is Invalid Format");
+            regArray.add(0, time + params + " is Invalid Format");
         }
         // 5개 이상일때 처음 항목 삭제
-        if(resultArr.size()>5){
-            resultArr.remove(5);
+        if(regArray.size()>5){
+            regArray.remove(5);
         }
         // string으로 배열 출력
-        for(int i=0; i<resultArr.size(); i++){
-            str += resultArr.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+        for(int i=0; i<regArray.size(); i++){
+            str += regArray.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
         }
         resRegex.setResult(str);
         return resRegex;
     }
 
     //delete api
-    public DeleteDTO deleteArray(int idx) {
+    public DeleteDTO deleteArray(int idx,  List<String> regArray) {
 
         DeleteDTO delResult = new DeleteDTO();
         String str = "";
-        resultArr.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
-        for(int i=0; i<resultArr.size(); i++){ // 삭제 후 배열 재출력
-            str += resultArr.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+        regArray.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
+        for(int i=0; i<regArray.size(); i++){ // 삭제 후 배열 재출력
+            str += regArray.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
         }
         delResult.setResult(str);
         return delResult;
     }
+
 }
