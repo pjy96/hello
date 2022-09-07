@@ -14,15 +14,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.java.Log;
 
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -67,9 +64,8 @@ public class controller{
     @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public RegexDTO TestIPEmail(@RequestParam String params, HttpServletRequest request){
-        Object obj = request.getAttribute("regArray");
-        // List<String> arrList = Arrays.asList(obj);
-        List<String> arrList = (List<String>)obj;
+        Object obj = request.getSession().getAttribute("regArray"); // regArray
+        List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
         return utils.getVaildation(params, arrList);
     }
 
@@ -77,8 +73,8 @@ public class controller{
     @RequestMapping(value = "/api/del", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public DeleteDTO DeleteArray(@RequestParam int idx, HttpServletRequest request) {
-        Object obj = request.getAttribute("regArray");
-        List<String> arrList = (List<String>)obj;
+        Object obj = request.getSession().getAttribute("regArray");
+        List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
         return utils.deleteArray(idx, arrList);
     }
 

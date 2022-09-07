@@ -10,6 +10,7 @@ import java.util.regex.*;
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
+
 import org.springframework.stereotype.Service;
 
 
@@ -34,9 +35,7 @@ public class Utils {
 
     // Regex api & print array
     public RegexDTO getVaildation(String params, List<String> regArray) {
-        
-        //List<String> temp = (List<String>) regArray;
-        
+
         RegexDTO resRegex = new RegexDTO();
         resRegex.setInput(params);
         // IP Regex
@@ -71,6 +70,8 @@ public class Utils {
             str += regArray.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
         }
         resRegex.setResult(str);
+        
+        //Session.setAttribute("regArray", regArray);
         return resRegex;
     }
 
