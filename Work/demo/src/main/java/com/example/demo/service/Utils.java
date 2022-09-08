@@ -13,9 +13,11 @@ import com.example.demo.dto.RegexDTO;
 
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class Utils {
+
+    // 지우기 버튼에 대한 format 정의
+    final String formatStr="<button class=del onclick=\"delResult(%d)\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
 
     // world time api
     public GetTimeAPIRESParams getTimeWithZone(String timeZone){ // api/getTime
@@ -38,6 +40,13 @@ public class Utils {
 
         RegexDTO resRegex = new RegexDTO();
         resRegex.setInput(params);
+        // TimeZone 
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String str = "";
+        String time = df.format(date) + " | ";
+        time = "<p class=csstime>"+time+"</p>"; // 입력받은 timezone css
         // IP Regex
         Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
         Matcher mIp = regIp.matcher(params);
@@ -46,13 +55,11 @@ public class Utils {
         Pattern regEmail = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+$"); 
         Matcher mEmail = regEmail.matcher(params);
         boolean bEmail = mEmail.matches();
-        // TimeZone 
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String str = "";
-        String time = df.format(date) + " | ";
-        time = "<p class=csstime>"+time+"</p>"; // 입력받은 timezone css
+
+        //for(String str1 : arr1){print str}
+        //=> arr의 값을 차례대로 가져와서 str에 넣기
+
+
         // insert regex array
         if(bIp){
             regArray.add(0, time + params + " is IP");
@@ -67,11 +74,9 @@ public class Utils {
         }
         // string으로 배열 출력
         for(int i=0; i<regArray.size(); i++){
-            str += regArray.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+            str += regArray.get(i) + String.format(formatStr, i);
         }
         resRegex.setResult(str);
-        
-        //Session.setAttribute("regArray", regArray);
         return resRegex;
     }
 
@@ -82,7 +87,7 @@ public class Utils {
         String str = "";
         regArray.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
         for(int i=0; i<regArray.size(); i++){ // 삭제 후 배열 재출력
-            str += regArray.get(i) + "<button class=del onclick=\"delResult("+i+")\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
+            str += regArray.get(i) +String.format(formatStr, i);
         }
         delResult.setResult(str);
         return delResult;

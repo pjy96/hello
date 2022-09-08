@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -63,8 +62,8 @@ public class controller{
     // 정규식 validation 하는 API
     @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public RegexDTO TestIPEmail(@RequestParam String params, HttpServletRequest request){
-        Object obj = request.getSession().getAttribute("regArray"); // regArray
+    public RegexDTO TestIPEmail(@RequestParam String params, HttpSession session){ // 
+        Object obj = session.getAttribute("regArray"); // regArray
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
         return utils.getVaildation(params, arrList);
     }
