@@ -8,6 +8,7 @@ import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
+import com.example.demo.model.TestData;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -76,5 +77,13 @@ public class controller{
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
         return utils.deleteArray(idx, arrList);
     }
+
+    // database api
+    @RequestMapping(value="/api/db", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String requestMethodName(TestData testData) {
+        return "";
+    }
+    
 
 }

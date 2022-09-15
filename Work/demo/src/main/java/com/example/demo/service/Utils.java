@@ -59,7 +59,6 @@ public class Utils {
         //for(String str1 : arr1){print str}
         //=> arr의 값을 차례대로 가져와서 str에 넣기
 
-
         // insert regex array
         if(bIp){
             regArray.add(0, time + params + " is IP");
