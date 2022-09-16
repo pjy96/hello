@@ -18,15 +18,13 @@
     <p class="Now">현재 시간 >> </p> <!--현재 시간:-->
     <p id="time" class="time"></p> <!-- servertime 출력 -->
     <div class="IpEmail">
-        <form action="/api/db">
+        <form action="/api/db2">
             <h2>Enter your IP or Email : </h2>
-            <input id="inputbar" type="text" placeholder="Type in..." onkeypress="reqIPEmail()"> <!--검색바 : enter를 눌렀을때 function 실행-->
+            <input id="inputbar" name="input" method="post" type="text" placeholder="Type in..." onkeypress="reqIPEmail()"> <!--검색바 : enter를 눌렀을때 function 실행-->
             <button class="button"><i class="fas fa-keyboard"></i></button> <!--검색바 왼쪽의 키보드 아이콘-->
             <button class="close" onclick="fClose()"><i class="fa-solid fa-xmark"></i></button> <!--검색바 오른쪽의 x 표시 : 검색중인 내용 삭제-->
             <!-- 결과 출력창 -->
-            <div>
-                <p id="result" class="result"></p>
-            </div>
+            <p id="result" name="result" class="result"></p>
         </form>
     </div>
 

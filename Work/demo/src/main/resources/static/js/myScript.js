@@ -40,6 +40,7 @@ function reqIPEmail() { // 정규식 test api 호출
         })
     }
 }
+
 // delete api
 function delResult(idx){
     $.ajax({

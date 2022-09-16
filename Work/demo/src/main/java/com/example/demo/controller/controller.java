@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -9,6 +10,7 @@ import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
 import com.example.demo.model.TestData;
+import com.example.demo.repository.testRepository;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +46,7 @@ public class controller{
     public String index(HttpSession session, HttpServletRequest request) {
         log.info("[Index HTML Call] | " + session.getId()); // getId
         if (session.getAttribute("regArray") == null){ // regArray에 바인딩 된 객체를 돌려주고, 없다면 null
-            ArrayList<String> regArray = new ArrayList<String>(); // 배열 
+            ArrayList<String> regArray = new ArrayList<String>(); // browser마다 다른 배열에 저장 
             session.setAttribute("regArray", regArray); // 객체 생성
         }
         return "index.html"; 
@@ -78,11 +81,24 @@ public class controller{
         return utils.deleteArray(idx, arrList);
     }
 
-    // database api
-    @RequestMapping(value="/api/db", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public String requestMethodName(TestData testData) {
-        return "";
+    @Autowired
+    testRepository repo;
+
+    // // database api
+    // @RequestMapping(value="/api/db", method = {RequestMethod.GET, RequestMethod.POST})
+    // @ResponseBody
+    // public String saveData(TestData testData) {
+    //     repo.save(testData); // repository에 data 저장
+    //     return "success";
+    //     //return "index.html";
+    // }
+
+    @RequestMapping(value="/api/db2", method={RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<String> saveData(@RequestParam String param) {
+
+        TestData testData = new TestData();
+        testData.setHostip("param");
+        return ResponseEntity.ok("success");
     }
     
 
