@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +19,7 @@ import lombok.extern.java.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -84,22 +84,33 @@ public class controller{
     @Autowired
     testRepository repo;
 
+    @RequestMapping(value="/api/db", method=RequestMethod.GET)
+    @ResponseBody
+    public String SaveData(TestData testData, HttpServletRequest request) {
+        String ip = request.getRemoteHost();
+        List<TestData> testDatas = new ArrayList<>();
+
+        repo.save(testData);
+        return "success";
+    }
+    
+
+
     // // database api
     // @RequestMapping(value="/api/db", method = {RequestMethod.GET, RequestMethod.POST})
     // @ResponseBody
-    // public String saveData(TestData testData) {
-    //     repo.save(testData); // repository에 data 저장
+    // public String saveData()  {
+    //     // TestData testData = new TestData();
+    //     // testData.setHostip("request.getRemoteHost()");
+    //     // repo.saveAll(testData); // repository에 data 저장
+    //     List<DataList> datalist = new ArrayList<>();
+
+    //     datalist.add();
+    //     testRepository.saveAll(datalist);
+    //     // TestData testData = TestData.hostip()
+    //     //             .result();
     //     return "success";
-    //     //return "index.html";
     // }
 
-    @RequestMapping(value="/api/db2", method={RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<String> saveData(@RequestParam String param) {
-
-        TestData testData = new TestData();
-        testData.setHostip("param");
-        return ResponseEntity.ok("success");
-    }
-    
 
 }

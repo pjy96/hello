@@ -24,18 +24,18 @@ public class TestData{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
 
-    @Column(name = "input", columnDefinition = "varchar(128) not null comment '입력값'")
+    @Column(name = "input", columnDefinition = "varchar(25) not null comment '입력값'")
     @Comment("입력값")
     private String input;
 
-    @Column(name = "result", columnDefinition = "varchar(128)")
+    @Column(name = "result", columnDefinition = "varchar(60) comment '결과값'")
     private String result;
 
     @CreationTimestamp
     @Column(name = "date_time", columnDefinition = "datetime(6) not null comment '입력한 시간'")
     private LocalDateTime datetime;
     
-    @Column(name = "hostip", columnDefinition = "varchar(128) comment '입력한 ip 주소'")
+    @Column(name = "hostip", columnDefinition = "varchar(15) comment '입력한 ip 주소'")
     private String hostip;
     
 }
