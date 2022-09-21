@@ -90,11 +90,10 @@ public class controller{
         if (ip == null) {
             ip = request.getRemoteAddr();
         }
-        
         repo.save(testData);
-        
+
     }
-    
+
 
 
 }
