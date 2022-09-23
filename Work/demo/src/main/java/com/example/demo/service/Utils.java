@@ -10,6 +10,7 @@ import java.util.regex.*;
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
+import com.example.demo.dto.SaveDTO;
 
 import org.springframework.stereotype.Service;
 
@@ -90,6 +91,29 @@ public class Utils {
         }
         delResult.setResult(str);
         return delResult;
+    }
+
+    public SaveDTO saveData(String params){
+
+        SaveDTO savDt = new SaveDTO();
+        savDt.setInput(params); // 지우기--------------------
+        // IP Regex
+        Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
+        Matcher mIp = regIp.matcher(params);
+        boolean bIp = mIp.matches();
+        // Email Regex
+        Pattern regEmail = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+$"); 
+        Matcher mEmail = regEmail.matcher(params);
+        boolean bEmail = mEmail.matches();
+
+        if(bIp){
+            savDt.setResult("IP");
+        }else if(bEmail){
+            savDt.setResult("EMAIL");
+        }else{
+            savDt.setResult("INVALID FORMAT");
+        }
+        return savDt;
     }
 
 }

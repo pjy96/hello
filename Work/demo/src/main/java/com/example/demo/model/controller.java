@@ -1,14 +1,15 @@
-package com.example.demo.controller;
+package com.example.demo.model;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.controller.TestData;
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
-import com.example.demo.model.TestData;
+import com.example.demo.dto.SaveDTO;
 import com.example.demo.repository.testRepository;
 import com.example.demo.service.Utils;
 
@@ -23,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+
 
 
 @Controller
@@ -62,38 +65,49 @@ public class controller{
     }
 
     // 정규식 validation 하는 API
-    @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public RegexDTO TestIPEmail(@RequestParam String params, HttpSession session){ // 
-        Object obj = session.getAttribute("regArray"); // regArray
-        List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
-        return utils.getVaildation(params, arrList);
-    }
+    // @RequestMapping(value = "/api/reg", method = RequestMethod.GET)
+    // @ResponseBody
+    // public RegexDTO TestIPEmail(@RequestParam String params, HttpSession session){ // 
+    //     Object obj = session.getAttribute("regArray"); // regArray
+    //     List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
+    //     return utils.getVaildation(params, arrList);
+    // }
 
     // 삭제 API
-    @RequestMapping(value = "/api/del", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/api/del", method = RequestMethod.GET)
     @ResponseBody
     public DeleteDTO DeleteArray(@RequestParam int idx, HttpServletRequest request) {
-        Object obj = request.getSession().getAttribute("regArray");
+        Object obj = request.getSession().getAttribute("regArray"); // regArray
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
         return utils.deleteArray(idx, arrList);
     }
 
     @Autowired
-    testRepository repo;
+    testRepository repo; 
 
     @RequestMapping(value="/api/db", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void SaveData(TestData testData, HttpServletRequest request) {
-
-        String ip = request.getHeader("X-Forwarded-For");
+        // ip 불러오기
+        String ip = request.getHeader("X-Forwarded-For"); 
         if (ip == null) {
-            ip = request.getRemoteAddr();
+            ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
         }
+        // String result;
+        testData.setHostip(ip);
+        // testData.setResult(result);
         repo.save(testData);
-
     }
 
-
+    @RequestMapping(value = "/api/reg", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public SaveDTO saveData(@RequestParam String params, TestData testData, HttpServletRequest request){
+        String ip = request.getHeader("X-Forwarded-For"); 
+        if (ip == null) {
+            ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
+        }
+        testData.setHostip(ip);
+        return utils.saveData(params);
+    }
 
 }

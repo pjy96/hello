@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.controller;
 
 import java.time.LocalDateTime;
 
@@ -11,13 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Table(name="test_data")
-@Setter
-@Getter
+@Data // Getter & Setter 포함
 public class TestData{
 
     @Id
