@@ -107,11 +107,11 @@ public class Utils {
         boolean bEmail = mEmail.matches();
 
         if(bIp){
-            savDt.setResult("IP");
+            savDt.setResult("ip");
         }else if(bEmail){
-            savDt.setResult("EMAIL");
+            savDt.setResult("email");
         }else{
-            savDt.setResult("INVALID FORMAT");
+            savDt.setResult("invalid");
         }
         return savDt;
     }

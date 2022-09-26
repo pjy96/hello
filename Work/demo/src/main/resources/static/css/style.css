@@ -75,11 +75,33 @@ input:hover{ /* 검색바에 마우스포인터가 올라왔을때, 클릭했을
     position:  absolute;
     margin: 0;
 }
+.scheduler1{ /* API로 schedule */
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    font-weight: bold;
+    font-size: small; 
+    background-color: transparent; 
+    color: #e8e8e8; /* 굵고 작게 흰색 글씨, 배경은 검정 */
+    padding: 2px;
+    position:  absolute;
+    left: 120px;
+    margin: 0;
+}
+.scheduler2{ /* websocket schedule */
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    font-weight: bold;
+    font-size: small; 
+    background-color: transparent; 
+    color: #e8e8e8; /* 굵고 작게 흰색 글씨, 배경은 검정 */
+    padding: 2px;
+    position:  absolute;
+    left: 180px;
+    margin: 0;
+}
 .result{ 
     position:  absolute;
     color: black;
     font-size: 14px;
-    width: 400px;
+    width: 400px; 
     margin: 10px;
     padding: 5px; 
 }
