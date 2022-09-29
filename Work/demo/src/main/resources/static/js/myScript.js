@@ -23,6 +23,12 @@ setInterval(function request_time() {
     })
 }, 1000); //1초마다 한번씩
 
+function schedule_API() {
+
+    
+    
+}
+
 // ajax로 result 호출하기
 function reqIPEmail() { // 정규식 test api 호출
     if(window.event.keyCode == 13){ // enter키 눌렀을 때

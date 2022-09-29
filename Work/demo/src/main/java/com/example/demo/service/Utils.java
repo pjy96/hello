@@ -10,8 +10,10 @@ import java.util.regex.*;
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
-import com.example.demo.dto.SaveDTO;
+import com.example.demo.model.TestData;
+import com.example.demo.repository.testRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -92,11 +94,14 @@ public class Utils {
         delResult.setResult(str);
         return delResult;
     }
+    
+    @Autowired
+    testRepository repo; 
+    // repository ip, email, invaild 저장
+    public TestData saveData(String params) {
 
-    public SaveDTO saveData(String params){
-
-        SaveDTO savDt = new SaveDTO();
-        savDt.setInput(params); // 지우기--------------------
+        TestData testData = new TestData();
+        testData.setInput(params);
         // IP Regex
         Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
         Matcher mIp = regIp.matcher(params);
@@ -107,13 +112,17 @@ public class Utils {
         boolean bEmail = mEmail.matches();
 
         if(bIp){
-            savDt.setResult("ip");
+            testData.setResult("ip");
         }else if(bEmail){
-            savDt.setResult("email");
+            testData.setResult("email");
         }else{
-            savDt.setResult("invalid");
+            testData.setResult("invalid");
         }
-        return savDt;
+        
+        repo.save(testData);
+
+        return testData;
     }
+
 
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -83,36 +84,47 @@ public class controller{
 
     @Autowired
     testRepository repo; 
-
+    
+    // save repository api
     // @RequestMapping(value = "/api/db", method={RequestMethod.GET, RequestMethod.POST})
     // @ResponseBody
-    // public SaveDTO saveData(@RequestParam String params, TestData testData, HttpServletRequest request){
+    // public String saveData(@RequestParam String params, HttpServletRequest request){
+
+    //     TestData testData = new TestData();
     //     String ip = request.getHeader("X-Forwarded-For"); 
     //     if (ip == null) {
     //         ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
     //     }
-    //     SaveDTO savDt = new SaveDTO();
-    //     String result = savDt.getResult();
+    //     testData.setHostip(ip); // testData hostip
+    //     //repo.save(testData); // repo에 저장
 
-    //     testData.setHostip(ip);
-    //     testData.setResult(result);
-    //     //repo.save(testData);
-    //     return utils.saveData(params);
+    //     //utils.saveData(params); // service로 params 넘기기
+    //     log.info(params);
+    //     // String result = savDT.getResult(); // SaveDTO에 저장된 result 가져오기
+    //     // testData.setResult(result); // testData result 
+    //     //return utils.saveData(params);
+    //     return "http://localhost:8080/api/reg?params=" + params;
+
     // }
 
     @RequestMapping(value = "/api/db", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String saveData(TestData testData, HttpServletRequest request){
+    public String saveData(@RequestParam String params, TestData testData, HttpServletRequest request){
+
         String ip = request.getHeader("X-Forwarded-For"); 
         if (ip == null) {
             ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
         }
-
-        testData.setHostip(ip);
-        repo.save(testData);
-        return "index.html";
+        testData.setHostip(ip); // testData hostip
+        repo.save(testData); // repo에 저장
+        log.info(params);
+        return "success";
     }
 
-
+    @Scheduled(fixedRate = 1000)
+    public void scheduledFixedRateTask(){
+        long now = System.currentTimeMillis()/1000;
+        System.out.println("Fixed task : " + now );
+    }
 
 }
