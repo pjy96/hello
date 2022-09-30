@@ -23,10 +23,9 @@ setInterval(function request_time() {
     })
 }, 1000); //1초마다 한번씩
 
+// scheduler API
 function schedule_API() {
-
-    
-    
+ 
 }
 
 // ajax로 result 호출하기
@@ -47,7 +46,7 @@ function reqIPEmail() { // 정규식 test api 호출
     }
 }
 
-// delete api
+// delete API
 function delResult(idx){
     $.ajax({
         type: "GET", 
@@ -58,6 +57,21 @@ function delResult(idx){
         },
         error:  function(){
             alert("Delete Fail");
+        } 
+    })
+}
+
+// saveRegexData API
+function saveRegData(params){
+    $.ajax({
+        type: "GET", 
+        url: "http://localhost:8080/api/db?params=" + params, // 
+        success: function(idx){
+            const result = document.getElementById("result"); // result 출력창
+            result.innerHTML = idx.result; // 삭제 후 재출력
+        },
+        error:  function(){
+            alert("saveData Fail");
         } 
     })
 }

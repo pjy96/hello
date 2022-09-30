@@ -27,9 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 
-
-@Controller
 @Log
+@Controller
 public class controller{
 
     @Autowired
@@ -84,47 +83,28 @@ public class controller{
 
     @Autowired
     testRepository repo; 
-    
     // save repository api
-    // @RequestMapping(value = "/api/db", method={RequestMethod.GET, RequestMethod.POST})
-    // @ResponseBody
-    // public String saveData(@RequestParam String params, HttpServletRequest request){
-
-    //     TestData testData = new TestData();
-    //     String ip = request.getHeader("X-Forwarded-For"); 
-    //     if (ip == null) {
-    //         ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
-    //     }
-    //     testData.setHostip(ip); // testData hostip
-    //     //repo.save(testData); // repo에 저장
-
-    //     //utils.saveData(params); // service로 params 넘기기
-    //     log.info(params);
-    //     // String result = savDT.getResult(); // SaveDTO에 저장된 result 가져오기
-    //     // testData.setResult(result); // testData result 
-    //     //return utils.saveData(params);
-    //     return "http://localhost:8080/api/reg?params=" + params;
-
-    // }
-
-    @RequestMapping(value = "/api/db", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping("/api/db")
     @ResponseBody
-    public String saveData(@RequestParam String params, TestData testData, HttpServletRequest request){
+    public void saveData(String params, HttpServletRequest request){
 
+        TestData testData = new TestData();
         String ip = request.getHeader("X-Forwarded-For"); 
         if (ip == null) {
             ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
         }
         testData.setHostip(ip); // testData hostip
-        repo.save(testData); // repo에 저장
-        log.info(params);
-        return "success";
+        testData.setInput(params); //testData input
+        repo.save(testData);
+        log.info("PARAMS : " + params);
     }
 
-    @Scheduled(fixedRate = 1000)
-    public void scheduledFixedRateTask(){
-        long now = System.currentTimeMillis()/1000;
-        System.out.println("Fixed task : " + now );
-    }
+
+
+    // @Scheduled(fixedRate = 1000)
+    // public void scheduledFixedRateTask(){
+    //     long now = System.currentTimeMillis()/1000;
+    //     System.out.println("Fixed task : " + now );
+    // }
 
 }
