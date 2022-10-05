@@ -94,35 +94,28 @@ public class Utils {
         delResult.setResult(str);
         return delResult;
     }
-    
-    @Autowired
-    testRepository repo; 
+
     // repository ip, email, invaild 저장
-    // public TestData saveData(String params) {
-    //     TestData testData = new TestData();
-    //     testData.setInput(params);
-    //     // IP Regex
-    //     Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
-    //     Matcher mIp = regIp.matcher(params);
-    //     boolean bIp = mIp.matches();
-    //     // Email Regex
-    //     Pattern regEmail = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+$"); 
-    //     Matcher mEmail = regEmail.matcher(params);
-    //     boolean bEmail = mEmail.matches();
-    //     if(bIp){
-    //         testData.setResult("ip");
-    //     }else if(bEmail){
-    //         testData.setResult("email");
-    //     }else{
-    //         testData.setResult("invalid");
-    //     }
-    //     repo.save(testData);
-    //     return testData;
-    // }
-    public void saveRegexData(){
+    public TestData saveData(String params) {
         TestData testData = new TestData();
-        repo.save(testData);
-        //return saveRegData;
+        testData.setInput(params);
+        // IP Regex
+        Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
+        Matcher mIp = regIp.matcher(params);
+        boolean bIp = mIp.matches();
+        // Email Regex
+        Pattern regEmail = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+$"); 
+        Matcher mEmail = regEmail.matcher(params);
+        boolean bEmail = mEmail.matches();
+        if(bIp){
+            testData.setResult("ip");
+        }else if(bEmail){
+            testData.setResult("email");
+        }else{
+            testData.setResult("invalid");
+        }
+        return testData;
     }
+
 
 }

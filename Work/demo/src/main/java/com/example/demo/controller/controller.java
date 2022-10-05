@@ -18,7 +18,10 @@ import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -64,7 +67,7 @@ public class controller{
     }
 
     // 정규식 validation 하는 API
-    @RequestMapping(value = "/api/reg", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public RegexDTO TestIPEmail(@RequestParam String params, HttpSession session){ // 
         Object obj = session.getAttribute("regArray"); // regArray
@@ -73,7 +76,7 @@ public class controller{
     }
 
     // 삭제 API
-    @RequestMapping(value = "/api/del", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/del", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public DeleteDTO DeleteArray(@RequestParam int idx, HttpServletRequest request) {
         Object obj = request.getSession().getAttribute("regArray"); // regArray
@@ -84,20 +87,25 @@ public class controller{
     @Autowired
     testRepository repo; 
     // save repository api
-    @RequestMapping("/api/db")
+    @RequestMapping(value = "/api/db", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveData(String params, HttpServletRequest request){
+    public String saveData(TestData testData, HttpServletRequest request){
 
-        TestData testData = new TestData();
+        // hostip 설정
         String ip = request.getHeader("X-Forwarded-For"); 
         if (ip == null) {
             ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
         }
         testData.setHostip(ip); // testData hostip
-        testData.setInput(params); //testData input
+
+        testData.setResult(testData.getResult());
+        // repo에 저장
         repo.save(testData);
-        log.info("PARAMS : " + params);
+
+        return "saveData";    
+    
     }
+
 
 
 

@@ -60,18 +60,3 @@ function delResult(idx){
         } 
     })
 }
-
-// saveRegexData API
-function saveRegData(params){
-    $.ajax({
-        type: "GET", 
-        url: "http://localhost:8080/api/db?params=" + params, // 
-        success: function(idx){
-            const result = document.getElementById("result"); // result 출력창
-            result.innerHTML = idx.result; // 삭제 후 재출력
-        },
-        error:  function(){
-            alert("saveData Fail");
-        } 
-    })
-}
