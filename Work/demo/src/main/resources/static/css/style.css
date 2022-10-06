@@ -83,7 +83,7 @@ input:hover{ /* 검색바에 마우스포인터가 올라왔을때, 클릭했을
     color: #e8e8e8; /* 굵고 작게 흰색 글씨, 배경은 검정 */
     padding: 2px;
     position:  absolute;
-    left: 120px;
+    left: 220px;
     margin: 0;
 }
 .scheduler2{ /* websocket schedule */
@@ -91,10 +91,10 @@ input:hover{ /* 검색바에 마우스포인터가 올라왔을때, 클릭했을
     font-weight: bold;
     font-size: small; 
     background-color: transparent; 
-    color: #e8e8e8; /* 굵고 작게 흰색 글씨, 배경은 검정 */
+    color: #fdffbe; /* 굵고 작게 흰색 글씨, 배경은 검정 */
     padding: 2px;
-    position:  absolute;
-    left: 180px;
+    position: relative;
+    text-align: right;
     margin: 0;
 }
 .result{ 

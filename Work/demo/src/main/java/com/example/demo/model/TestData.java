@@ -27,10 +27,10 @@ public class TestData{
     private String result;
 
     @CreationTimestamp
-    @Column(name = "date_time", columnDefinition = "datetime(6) not null comment '입력한 시간'")
+    @Column(name = "datetime", columnDefinition = "datetime(6) not null comment '입력한 시간'")
     private LocalDateTime datetime;
     
-    @Column(name = "host_ip", columnDefinition = "varchar(15) comment '입력한 ip 주소'")
-    private String hostip; // not null로 바꾸기
+    @Column(name = "host_ip", columnDefinition = "varchar(15) not null comment '입력한 ip 주소'")
+    private String hostip;
     
 }

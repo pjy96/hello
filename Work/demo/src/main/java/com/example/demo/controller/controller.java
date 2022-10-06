@@ -18,13 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Log
 @Controller
+@Component
 public class controller{
 
     @Autowired
@@ -78,10 +81,11 @@ public class controller{
     }
 
     // today ip, email schedule로 5초마다 주기적으로 실행
-    @Scheduled(fixedRate = 5000)
-    public void scheduledFixedRateTask(){
-        long now = System.currentTimeMillis()/1000;
-        log.info("Fixed task : " + now );
+    @RequestMapping(value = "/api/count", method = {RequestMethod.GET, RequestMethod.POST})
+    @Async
+    @Scheduled(fixedRate = 10000) // 작업 시작 시점 기준 10초마다 반복
+    public void scheduledTask(){
+
     }
 
 }
