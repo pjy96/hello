@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
+import com.example.demo.dto.IpEmailCountDTO;
 import com.example.demo.dto.RegexDTO;
+import com.example.demo.model.TestData;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -85,7 +87,18 @@ public class controller{
     @Async
     @Scheduled(fixedRate = 10000) // 작업 시작 시점 기준 10초마다 반복
     public void scheduledTask(){
-
+        IpEmailCountDTO countDTO = new IpEmailCountDTO(); // IpEmailCountDto 
+        TestData tstData = new TestData();
+        String result = tstData.getResult();
+        int countIP=0;
+        int countEmail=0;
+        if(result == "IP"){
+            countIP = countIP++;
+        }else if(result == "EMAIL"){
+            countEmail = countEmail++;
+        }
+        countDTO.setCountIP(countIP);
+        countDTO.setCountEMAIL(countEmail);
     }
 
 }
