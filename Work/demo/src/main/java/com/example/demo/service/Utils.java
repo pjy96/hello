@@ -13,12 +13,17 @@ import com.example.demo.dto.RegexDTO;
 import com.example.demo.model.TestData;
 import com.example.demo.repository.testRepository;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class Utils {
 
+    @Autowired
+    testRepository repo; // DAO
+    
     // 지우기 버튼에 대한 format 정의
     final String formatStr="<button class=del onclick=\"delResult(%d)\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
 
@@ -38,11 +43,21 @@ public class Utils {
         return resParams;
     }
 
-    // Regex api & print array
-    public RegexDTO getVaildation(String params, List<String> regArray) {
+    // Regex api & print array & save repo
+    public RegexDTO getVaildation(String params, List<String> regArray, HttpServletRequest request) {
 
         RegexDTO resRegex = new RegexDTO();
-        resRegex.setInput(params);
+        TestData testData = new TestData();
+        resRegex.setInput(params); // regex 
+        testData.setInput(resRegex.getInput());
+
+        // host_ip
+        String ip = request.getHeader("X-Forwarded-For"); 
+        if (ip == null) {
+            ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
+        }
+        testData.setHostip(ip);
+
         // TimeZone 
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
         Date date = new Date();
@@ -65,10 +80,13 @@ public class Utils {
         // insert regex array
         if(bIp){
             regArray.add(0, time + params + " is IP");
+            testData.setResult("IP");
         }else if(bEmail){
             regArray.add(0, time + params + " is Email");
+            testData.setResult("EMAIL");
         }else{
             regArray.add(0, time + params + " is Invalid Format");
+            testData.setResult("INVALID");
         }
         // 5개 이상일때 처음 항목 삭제
         if(regArray.size()>5){
@@ -79,6 +97,7 @@ public class Utils {
             str += regArray.get(i) + String.format(formatStr, i);
         }
         resRegex.setResult(str);
+        repo.save(testData); // testData에 set한 data -> repo에 저장
         return resRegex;
     }
 
@@ -94,28 +113,5 @@ public class Utils {
         delResult.setResult(str);
         return delResult;
     }
-
-    // repository ip, email, invaild 저장
-    public TestData saveData(String params) {
-        TestData testData = new TestData();
-        testData.setInput(params);
-        // IP Regex
-        Pattern regIp = Pattern.compile("^((([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\\.){3}(([0-9]{1,2})|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))$");  
-        Matcher mIp = regIp.matcher(params);
-        boolean bIp = mIp.matches();
-        // Email Regex
-        Pattern regEmail = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z0-9_]+$"); 
-        Matcher mEmail = regEmail.matcher(params);
-        boolean bEmail = mEmail.matches();
-        if(bIp){
-            testData.setResult("ip");
-        }else if(bEmail){
-            testData.setResult("email");
-        }else{
-            testData.setResult("invalid");
-        }
-        return testData;
-    }
-
 
 }

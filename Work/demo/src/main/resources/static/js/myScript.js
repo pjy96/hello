@@ -25,6 +25,21 @@ setInterval(function request_time() {
 
 // scheduler API
 function schedule_API() {
+    $.ajax({
+        type: "GET",
+        url: "", // api schedule???
+        data:{ // url 호출 시 보낼 default parameter
+
+
+        },
+        success: function(res){
+            const scheduler1 = document.getElementById("scheduler1"); // scheduler1 출력창
+            scheduler1.innerHTML = res.result; // api/scheduler 중 result 출력
+        }, 
+        
+
+
+    })
  
 }
 

@@ -8,8 +8,6 @@ import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.RegexDTO;
-import com.example.demo.model.TestData;
-import com.example.demo.repository.testRepository;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,17 +16,12 @@ import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-
 
 @Log
 @Controller
@@ -66,53 +59,29 @@ public class controller{
         return utils.getTimeWithZone(getTimeZone); // service 호출
     }
 
-    // 정규식 validation 하는 API
+    // 정규식 validation 하는 API & repository에 저장
     @RequestMapping(value = "/api/reg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public RegexDTO TestIPEmail(@RequestParam String params, HttpSession session){ // 
-        Object obj = session.getAttribute("regArray"); // regArray
+    public RegexDTO TestIPEmail(@RequestParam String params, HttpServletRequest req){ // 
+        Object obj = req.getSession().getAttribute("regArray"); // regArray
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
-        return utils.getVaildation(params, arrList);
+        return utils.getVaildation(params, arrList, req);
     }
 
     // 삭제 API
     @RequestMapping(value = "/api/del", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public DeleteDTO DeleteArray(@RequestParam int idx, HttpServletRequest request) {
-        Object obj = request.getSession().getAttribute("regArray"); // regArray
+    public DeleteDTO DeleteArray(@RequestParam int idx, HttpSession session) {
+        Object obj = session.getAttribute("regArray"); // regArray
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
         return utils.deleteArray(idx, arrList);
     }
 
-    @Autowired
-    testRepository repo; 
-    // save repository api
-    @RequestMapping(value = "/api/db", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public String saveData(TestData testData, HttpServletRequest request){
-
-        // hostip 설정
-        String ip = request.getHeader("X-Forwarded-For"); 
-        if (ip == null) {
-            ip = request.getRemoteAddr(); // 클라이언트 접속 IP 불러오기
-        }
-        testData.setHostip(ip); // testData hostip
-
-        testData.setResult(testData.getResult());
-        // repo에 저장
-        repo.save(testData);
-
-        return "saveData";    
-    
+    // today ip, email schedule로 5초마다 주기적으로 실행
+    @Scheduled(fixedRate = 5000)
+    public void scheduledFixedRateTask(){
+        long now = System.currentTimeMillis()/1000;
+        log.info("Fixed task : " + now );
     }
-
-
-
-
-    // @Scheduled(fixedRate = 1000)
-    // public void scheduledFixedRateTask(){
-    //     long now = System.currentTimeMillis()/1000;
-    //     System.out.println("Fixed task : " + now );
-    // }
 
 }
