@@ -23,24 +23,21 @@ setInterval(function request_time() {
     })
 }, 1000); //1초마다 한번씩
 
-// scheduler API
-// function schedule_API() {
-//     $.ajax({
-//         type: "GET",
-//         url: "http://localhost:8080/api/count", // api count
-//         data:{ // url 호출 시 보낼 default parameter
-//             countIP:0,
-//             countEMAIL:0
-//         },
-//         success: function(res){
-//             const scheduler1 = document.getElementById("scheduler1"); // scheduler1 출력창
-//             scheduler1.innerHTML = "TODAY | IP: " + res.countIP + " EMAIL: " + res.countEMAIL;
-//         }, 
-//         error: function(){
-//             alert("schedule_API Fail");
-//         }
-//     })
-// }
+// scheduler API========================================================================================================
+function schedule_API() {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/count", // api count
+        success: function(data){
+            const scheduler1 = document.getElementById("scheduler1"); // scheduler1 출력창
+            scheduler1.innerHTML = "TODAY | IP: " + data.countIP + ", EMAIL: " + data.countEMAIL; 
+            console.log("IP: " + data.countIP + ", EMAIL: " + data.countEMAIL); // 로그 찍어보기
+        }, 
+        error: function(){
+            alert("schedule_API Fail");
+        }
+    })
+}
 
 // ajax로 result 호출하기
 function reqIPEmail() { // 정규식 test api 호출

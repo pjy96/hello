@@ -10,6 +10,7 @@ import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.IpEmailCountDTO;
 import com.example.demo.dto.RegexDTO;
 import com.example.demo.model.TestData;
+import com.example.demo.repository.testRepository;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -82,23 +83,23 @@ public class controller{
         return utils.deleteArray(idx, arrList);
     }
 
+    @Autowired
+    testRepository repo;
+
     // today ip, email schedule로 5초마다 주기적으로 실행
     @RequestMapping(value = "/api/count", method = {RequestMethod.GET, RequestMethod.POST})
     @Async
-    @Scheduled(fixedRate = 10000) // 작업 시작 시점 기준 10초마다 반복
+    @Scheduled(fixedRate = 5000) // 작업 시작 시점 기준
     public void scheduledTask(){
-        IpEmailCountDTO countDTO = new IpEmailCountDTO(); // IpEmailCountDto 
-        TestData tstData = new TestData();
-        String result = tstData.getResult();
-        int countIP=0;
-        int countEmail=0;
-        if(result == "IP"){
-            countIP = countIP++;
-        }else if(result == "EMAIL"){
-            countEmail = countEmail++;
-        }
-        countDTO.setCountIP(countIP);
-        countDTO.setCountEMAIL(countEmail);
+        List<TestData> resultIp = repo.findByResult("IP"); // repo에서 result = IP 인 Data 가져오기
+        List<TestData> resultEmail = repo.findByResult("EMAIL"); // repo에서 result = Email 인 Data 가져오기
+
+        IpEmailCountDTO ieDto = new IpEmailCountDTO();
+        ieDto.setCountIP(resultIp.size());
+        ieDto.setCountEMAIL(resultEmail.size());
+
+        //log.info("TODAY| IP: " + resultIp.size() + ", EMAIL: " + resultEmail.size());
+
     }
 
 }

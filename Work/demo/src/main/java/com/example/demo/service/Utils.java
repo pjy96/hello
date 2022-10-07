@@ -9,7 +9,6 @@ import java.util.regex.*;
 
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
-import com.example.demo.dto.IpEmailCountDTO;
 import com.example.demo.dto.RegexDTO;
 import com.example.demo.model.TestData;
 import com.example.demo.repository.testRepository;
@@ -17,9 +16,11 @@ import com.example.demo.repository.testRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 @Service
+@Configuration
 public class Utils {
 
     @Autowired
@@ -42,26 +43,6 @@ public class Utils {
         resParams.setDatetime(df.format(date)); // datetime
         return resParams;
     }
-
-    // today ip, email count
-    // public IpEmailCountDTO getCount(){
-    //     IpEmailCountDTO countDTO = new IpEmailCountDTO(); // IpEmailCountDto 
-    //     TestData tstData = new TestData();
-    //     String result = tstData.getResult(); // TestData 중 result
-    //     //Long id = tstData.getId(); // TestData 중 id
-    //     int countIP=0; // ip 개수
-    //     int countEMAIL=0; // email 개수
-    //     //for(String str1 : arr1){print str}
-    //     //=> arr의 값을 차례대로 가져와서 str에 넣기
-    //     if(result == "IP"){
-    //        countIP += 1;
-    //     }else if(result == "EMAIL"){
-    //         countEMAIL += 1;
-    //     }
-    //     countDTO.setCountIP(countIP);
-    //     countDTO.setCountEMAIL(countEMAIL);
-    //     return countDTO;
-    // }
 
     // Regex api & print array & save repo
     public RegexDTO getVaildation(String params, List<String> regArray, HttpServletRequest request) {
