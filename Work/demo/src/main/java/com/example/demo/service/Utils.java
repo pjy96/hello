@@ -9,6 +9,7 @@ import java.util.regex.*;
 
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
+import com.example.demo.dto.IpEmailCountDTO;
 import com.example.demo.dto.RegexDTO;
 import com.example.demo.model.TestData;
 import com.example.demo.repository.testRepository;
@@ -115,4 +116,17 @@ public class Utils {
         return delResult;
     }
 
+    public IpEmailCountDTO countResult(){
+        IpEmailCountDTO ieDto = new IpEmailCountDTO();
+
+        List<TestData> resultIp = repo.findByResult("IP"); // repo에서 result = IP 인 Data 가져오기
+        List<TestData> resultEmail = repo.findByResult("EMAIL"); // repo에서 result = Email 인 Data 가져오기
+
+        ieDto.setCountIP(resultIp.size());
+        ieDto.setCountEMAIL(resultEmail.size());
+
+        
+
+        return  ieDto;
+    }
 }

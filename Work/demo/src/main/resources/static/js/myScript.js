@@ -31,13 +31,14 @@ function schedule_API() {
         success: function(data){
             const scheduler1 = document.getElementById("scheduler1"); // scheduler1 출력창
             scheduler1.innerHTML = "TODAY | IP: " + data.countIP + ", EMAIL: " + data.countEMAIL; 
-            console.log("IP: " + data.countIP + ", EMAIL: " + data.countEMAIL); // 로그 찍어보기
+            //console.log("IP: " + data.countIP + ", EMAIL: " + data.countEMAIL); // 로그 찍어보기
         }, 
         error: function(){
             alert("schedule_API Fail");
         }
     })
 }
+//========================================================================================================================
 
 // ajax로 result 호출하기
 function reqIPEmail() { // 정규식 test api 호출

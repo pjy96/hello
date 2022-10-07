@@ -91,15 +91,10 @@ public class controller{
     @Async
     @Scheduled(fixedRate = 5000) // 작업 시작 시점 기준
     public void scheduledTask(){
-        List<TestData> resultIp = repo.findByResult("IP"); // repo에서 result = IP 인 Data 가져오기
-        List<TestData> resultEmail = repo.findByResult("EMAIL"); // repo에서 result = Email 인 Data 가져오기
+        // List<TestData> resultIp = repo.findByResult("IP"); // repo에서 result = IP 인 Data 가져오기
+        // List<TestData> resultEmail = repo.findByResult("EMAIL"); // repo에서 result = Email 인 Data 가져오기
 
-        IpEmailCountDTO ieDto = new IpEmailCountDTO();
-        ieDto.setCountIP(resultIp.size());
-        ieDto.setCountEMAIL(resultEmail.size());
-
-        //log.info("TODAY| IP: " + resultIp.size() + ", EMAIL: " + resultEmail.size());
-
+        // log.info("TODAY| IP: " + resultIp.size() + ", EMAIL: " + resultEmail.size());
     }
 
 }
