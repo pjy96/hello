@@ -24,14 +24,17 @@ setInterval(function request_time() {
 }, 1000); //1초마다 한번씩
 
 // scheduler API========================================================================================================
-function schedule_API() {
+window.onload = function schedule_API() {
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/count", // api count
-        success: function(data){
+        data:{
+            countIP:0,
+            countEMAIL:0
+        },
+        success: function(data){ // 성공했을 때
             const scheduler1 = document.getElementById("scheduler1"); // scheduler1 출력창
-            scheduler1.innerHTML = "TODAY | IP: " + data.countIP + ", EMAIL: " + data.countEMAIL; 
-            //console.log("IP: " + data.countIP + ", EMAIL: " + data.countEMAIL); // 로그 찍어보기
+            scheduler1.innerHTML = "TODAY | IP: " + data.countIP + ", EMAIL: " + data.countEMAIL;
         }, 
         error: function(){
             alert("schedule_API Fail");

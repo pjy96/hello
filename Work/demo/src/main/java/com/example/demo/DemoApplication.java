@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync
-@EnableScheduling // 스케쥴링 기능을 enable 함
+@EnableScheduling
 @SpringBootApplication
 public class DemoApplication {
 

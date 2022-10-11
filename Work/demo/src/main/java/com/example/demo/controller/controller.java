@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -88,13 +87,20 @@ public class controller{
 
     // today ip, email schedule로 5초마다 주기적으로 실행
     @RequestMapping(value = "/api/count", method = {RequestMethod.GET, RequestMethod.POST})
-    @Async
     @Scheduled(fixedRate = 5000) // 작업 시작 시점 기준
+    @ResponseBody
     public void scheduledTask(){
-        // List<TestData> resultIp = repo.findByResult("IP"); // repo에서 result = IP 인 Data 가져오기
-        // List<TestData> resultEmail = repo.findByResult("EMAIL"); // repo에서 result = Email 인 Data 가져오기
 
-        // log.info("TODAY| IP: " + resultIp.size() + ", EMAIL: " + resultEmail.size());
+        List<TestData> resultIp = repo.findByResult("IP"); // repo에서 result = IP 인 Data 가져오기
+        List<TestData> resultEmail = repo.findByResult("EMAIL"); // repo에서 result = Email 인 Data 가져오기
+
+        int countIP = resultIp.size(); // result = IP 인 Data 개수
+        int countEMAIL = resultEmail.size(); // result = Email 인 Data 개수
+
+        ieDto.setCountIP(countIP);
+        ieDto.setCountEMAIL(countEMAIL);
+
+        log.info("TODAY| IP: " + countIP + ", EMAIL: " + countEMAIL);
     }
 
 }
