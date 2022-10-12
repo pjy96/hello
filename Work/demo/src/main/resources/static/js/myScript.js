@@ -28,13 +28,13 @@ window.onload = function schedule_API() {
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/count", // api count
-        data:{
+        data:{ // default 값
             countIP:0,
             countEMAIL:0
         },
-        success: function(data){ // 성공했을 때
+        success: function(res){ // 성공했을 때
             const scheduler1 = document.getElementById("scheduler1"); // scheduler1 출력창
-            scheduler1.innerHTML = "TODAY | IP: " + data.countIP + ", EMAIL: " + data.countEMAIL;
+            scheduler1.innerHTML = "TODAY | IP: " + res.countIP + ", EMAIL: " + res.countEMAIL;
         }, 
         error: function(){
             alert("schedule_API Fail");

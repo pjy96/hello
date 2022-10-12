@@ -99,6 +99,7 @@ public class Utils {
         }
         resRegex.setResult(str);
         repo.save(testData); // testData에 set한 data -> repo에 저장
+
         return resRegex;
     }
 
@@ -115,4 +116,7 @@ public class Utils {
         return delResult;
     }
 
+    public void count(){
+
+    }
 }

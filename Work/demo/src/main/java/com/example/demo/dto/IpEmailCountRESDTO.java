@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class IpEmailCountDTO {
+public class IpEmailCountRESDTO {
     int countIP;
     int countEMAIL;
 }
