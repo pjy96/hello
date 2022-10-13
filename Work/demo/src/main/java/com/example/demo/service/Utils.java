@@ -17,10 +17,14 @@ import com.example.demo.repository.testRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 @Service
-// @Configuration
+@EnableWebSocket // websocket annotation
+@EnableWebSocketMessageBroker
 public class Utils {
 
     @Autowired
@@ -116,17 +120,19 @@ public class Utils {
         return delResult;
     }
 
+    // count ip, email
     public IpEmailCountRESDTO count(){
-
         IpEmailCountRESDTO ieDto = new IpEmailCountRESDTO();
-
         List<TestData> resultIp = repo.findByResult("IP"); // List에 repo에서 result = IP 인 Data 가져오기
         List<TestData> resultEmail = repo.findByResult("EMAIL"); // List에 repo에서 result = Email 인 Data 가져오기
         int countIP = resultIp.size(); // result = IP 인 Data 개수
         int countEMAIL = resultEmail.size(); // result = Email 인 Data 개수
         ieDto.setCountIP(countIP);
         ieDto.setCountEMAIL(countEMAIL);
-
         return ieDto;
+    }
+
+    public void configureMessageBroker(MessageBrokerRegistry config){
+        config.enableSimpleBroker("/topic", "/direct");
     }
 }

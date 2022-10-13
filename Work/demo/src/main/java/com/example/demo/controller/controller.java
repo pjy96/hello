@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -89,4 +90,10 @@ public class controller{
         return ieDto;
     }
 
+    // Websocket으로 today ip, email 주기적으로 실행
+    @MessageMapping("/websocket")
+    public void wsCount(){
+
+
+    }
 }
