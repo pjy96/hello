@@ -9,6 +9,7 @@ import java.util.regex.*;
 
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIRESParams;
+import com.example.demo.dto.IpEmailCountRESDTO;
 import com.example.demo.dto.RegexDTO;
 import com.example.demo.model.TestData;
 import com.example.demo.repository.testRepository;
@@ -16,11 +17,10 @@ import com.example.demo.repository.testRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 @Service
-@Configuration
+// @Configuration
 public class Utils {
 
     @Autowired
@@ -116,7 +116,17 @@ public class Utils {
         return delResult;
     }
 
-    public void count(){
+    public IpEmailCountRESDTO count(){
 
+        IpEmailCountRESDTO ieDto = new IpEmailCountRESDTO();
+
+        List<TestData> resultIp = repo.findByResult("IP"); // List에 repo에서 result = IP 인 Data 가져오기
+        List<TestData> resultEmail = repo.findByResult("EMAIL"); // List에 repo에서 result = Email 인 Data 가져오기
+        int countIP = resultIp.size(); // result = IP 인 Data 개수
+        int countEMAIL = resultEmail.size(); // result = Email 인 Data 개수
+        ieDto.setCountIP(countIP);
+        ieDto.setCountEMAIL(countEMAIL);
+
+        return ieDto;
     }
 }

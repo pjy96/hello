@@ -9,8 +9,6 @@ import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.IpEmailCountRESDTO;
 import com.example.demo.dto.RegexDTO;
-import com.example.demo.model.TestData;
-import com.example.demo.repository.testRepository;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +18,6 @@ import lombok.extern.java.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -83,32 +80,13 @@ public class controller{
         return utils.deleteArray(idx, arrList);
     }
 
-    @Autowired
-    testRepository repo;
-    final IpEmailCountRESDTO ieDto = new IpEmailCountRESDTO();
-
     // today ip, email schedule로 5초마다 주기적으로 실행
     @RequestMapping(value = "/api/count", method = {RequestMethod.GET, RequestMethod.POST})
     @Scheduled(fixedRate = 5000) // 작업 시작 시점 기준
     @ResponseBody
-    public void scheduledTask(){
-        
-        // List<TestData> resultIp = repo.findByResult("IP"); // repo에서 result = IP 인 Data 가져오기
-        // List<TestData> resultEmail = repo.findByResult("EMAIL"); // repo에서 result = Email 인 Data 가져오기
-        // int countIP = resultIp.size(); // result = IP 인 Data 개수
-        // int countEMAIL = resultEmail.size(); // result = Email 인 Data 개수
-        // ieDto.setCountIP(countIP);
-        // ieDto.setCountEMAIL(countEMAIL);
-
-        List<String> countList = new ArrayList<>();
-        for(testRepository repo : ){
-            List<TestData> countIP = repo.findByResult("IP");
-            List<TestData> countEMAIL = repo.findByResult("EMAIL");
-
-        }
-    
-
-        //log.info("TODAY| IP: " + ieDto.getCountIP() + ", EMAIL: " + ieDto.getCountEMAIL());
+    public IpEmailCountRESDTO scheduledTask(){
+        IpEmailCountRESDTO ieDto = utils.count();
+        return ieDto;
     }
 
 }

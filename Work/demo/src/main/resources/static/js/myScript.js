@@ -23,15 +23,15 @@ setInterval(function request_time() {
     })
 }, 1000); //1초마다 한번씩
 
-// scheduler API========================================================================================================
-window.onload = function schedule_API() {
+// scheduler API
+setInterval(function schedule_API() {
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/count", // api count
-        data:{ // default 값
-            countIP:0,
-            countEMAIL:0
-        },
+        // data:{ // default 값
+        //     countIP:0,
+        //     countEMAIL:0
+        // },
         success: function(res){ // 성공했을 때
             const scheduler1 = document.getElementById("scheduler1"); // scheduler1 출력창
             scheduler1.innerHTML = "TODAY | IP: " + res.countIP + ", EMAIL: " + res.countEMAIL;
@@ -40,8 +40,7 @@ window.onload = function schedule_API() {
             alert("schedule_API Fail");
         }
     })
-}
-//========================================================================================================================
+}, 5000); // 5초마다 한번씩
 
 // ajax로 result 호출하기
 function reqIPEmail() { // 정규식 test api 호출
