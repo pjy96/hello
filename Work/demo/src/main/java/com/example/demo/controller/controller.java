@@ -3,12 +3,16 @@ package com.example.demo.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.web.util.HtmlUtils;
 
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.IpEmailCountRESDTO;
 import com.example.demo.dto.RegexDTO;
+import com.example.demo.messagingstompwebsocket.Greeting;
+import com.example.demo.messagingstompwebsocket.HelloMessage;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +24,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -29,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Log
 @Controller
 @Component
-public class controller{
+public class controller extends TextWebSocketHandler{
 
     @Autowired
     Utils utils;
@@ -90,10 +95,13 @@ public class controller{
         return ieDto;
     }
 
-    // Websocket으로 today ip, email 주기적으로 실행
-    @MessageMapping("/websocket")
-    public void wsCount(){
+    // Websocket으로 today ip, email 주기적으로 메세지 전송
 
-
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public Greeting greeting(HelloMessage message) throws Exception {
+      Thread.sleep(1000); // simulated delay
+      return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
+  
 }
