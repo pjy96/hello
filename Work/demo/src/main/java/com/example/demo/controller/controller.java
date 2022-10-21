@@ -3,38 +3,32 @@ package com.example.demo.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
-import org.springframework.web.util.HtmlUtils;
 
 import com.example.demo.dto.DeleteDTO;
 import com.example.demo.dto.GetTimeAPIREQParams;
 import com.example.demo.dto.GetTimeAPIRESParams;
 import com.example.demo.dto.IpEmailCountRESDTO;
 import com.example.demo.dto.RegexDTO;
-import com.example.demo.messagingstompwebsocket.Greeting;
-import com.example.demo.messagingstompwebsocket.HelloMessage;
 import com.example.demo.service.Utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.java.Log;
+// import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Log
+// @Log
 @Controller
 @Component
-public class controller extends TextWebSocketHandler{
+public class controller{
 
     @Autowired
     Utils utils;
@@ -49,7 +43,7 @@ public class controller extends TextWebSocketHandler{
     // index.html 호출
     @RequestMapping(value = "/")
     public String index(HttpSession session, HttpServletRequest request) {
-        log.info("[Index HTML Call] | " + session.getId()); // getId
+        // log.info("[Index HTML Call] | " + session.getId()); // getId
         if (session.getAttribute("regArray") == null){ // regArray에 바인딩 된 객체를 돌려주고, 없다면 null
             ArrayList<String> regArray = new ArrayList<String>(); // browser마다 다른 배열에 저장 
             session.setAttribute("regArray", regArray); // 객체 생성
@@ -97,13 +91,6 @@ public class controller extends TextWebSocketHandler{
 
     // Websocket으로 today ip, email 주기적으로 메세지 전송
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-      Thread.sleep(1000); // simulated delay
-      return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-    }
 
-    
   
 }

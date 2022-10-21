@@ -1,53 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hello WebSocket</title>
-    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/main.css" rel="stylesheet">
-    <script src="/webjars/jquery/jquery.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="/app.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" type="text/css"> <!--css호출-->
+    <script src="js/myScript.js"></script> <!--js 호출-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!--googlo font 호출-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!--googlo font 호출-->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Gowun+Dodum&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet"> <!--googlo font 호출-->
+    <script src="https://kit.fontawesome.com/efcb98e1c1.js" crossorigin="anonymous"></script> <!--아이콘 fontawesome kit-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!--jQuery 호출-->
+    
+    <!--===================================================================-->
+    <script src="omp/jquery/dist/jquery.min.js"></script>
+    <script src="/sockjs-client/sockjs.min.js"></script>
+    <script src="/stomp-websocket/stomp.min.js"></script>
+    <!--===================================================================-->
+    <!--cdn 하거나 webjars-->
+
+    <title>IP/Email Validation</title>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
-<div id="main-content" class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
-            </form>
-        </div>
+
+    <p class="Now">현재 시간 >> </p> <!--현재 시간:-->
+    <p id="time" class="time"></p> <!-- servertime 출력 -->
+    <p id="scheduler1" class="scheduler1"></p> <!--api로 scheduler1 출력-->
+    <p id="scheduler2" class="scheduler2"></p> <!--web socket으로 scheduler2 출력-->
+
+    <div class="IpEmail">
+        <h2>Enter your IP or Email : </h2>
+        <input id="inputbar" name="input" maxlength="25" type="text" placeholder="Type in..." onkeypress="reqIPEmail()"> <!--검색바 : enter를 눌렀을때 function 실행-->
+        <button class="button"><i class="fas fa-keyboard"></i></button> <!--검색바 왼쪽의 키보드 아이콘-->
+        <button class="close" onclick="fClose()"><i class="fa-solid fa-xmark"></i></button> <!--검색바 오른쪽의 x 표시 : 검색중인 내용 삭제-->
+        <p id="result" class="result"></p> <!-- 결과 출력창 -->
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Greetings</th>
-                </tr>
-                </thead>
-                <tbody id="greetings">
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+</ul>
 </div>
 </body>
 </html>
