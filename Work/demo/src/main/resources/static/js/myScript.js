@@ -91,8 +91,8 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
 }
 
- // connect 눌렀을 때
-function connect() { 
+ // window onload와 동시에 websocket에 connect
+ window.onload = function connect() { // 생성된 소켓과 연결
     var url = 'ws://localhost:8080/broadcast';
     stompClient = Stomp.client(url); 
     stompClient.connect({}, function () {

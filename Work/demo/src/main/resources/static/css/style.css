@@ -124,15 +124,3 @@ input:hover{ /* 검색바에 마우스포인터가 올라왔을때, 클릭했을
 .del:focus{ /* 삭제버튼 마우스 가까이 갔을 때, 클릭했을 때 */
     color: rgb(60, 60, 60);
 }
-.connectbtn{
-    position: relative;
-    font-size: small;
-    margin: 5px;
-    top: 30px;
-    left: 5px;
-}
-.from{
-    position: relative;
-    margin: 5px;
-    top: 30px;
-}
