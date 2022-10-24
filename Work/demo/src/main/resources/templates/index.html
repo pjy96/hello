@@ -11,17 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Gowun+Dodum&family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet"> <!--googlo font 호출-->
     <script src="https://kit.fontawesome.com/efcb98e1c1.js" crossorigin="anonymous"></script> <!--아이콘 fontawesome kit-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!--jQuery 호출-->
-    
-    <!--===================================================================-->
-    <script src="omp/jquery/dist/jquery.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/stomp-websocket/stomp.min.js"></script>
-    <!--===================================================================-->
-    <!--cdn 하거나 webjars-->
-    <!--springboot webjars classpath-->
-    <!--webjars stomp-websocket-->
-    <!--webjars sockjs-client-->
-    <!--stomp cdm-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script> <!--sockjs cdn-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script> <!--stomp cdn-->
 
     <title>IP/Email Validation</title>
 </head>
@@ -40,7 +31,10 @@
         <p id="result" class="result"></p> <!-- 결과 출력창 -->
     </div>
 
-</ul>
+    <button type="button" id="connect" class="connectbtn" onclick="connect()">Connect</button>
+    <button type="button" id="disconnect" class="connectbtn" onclick="disconnect()" disabled>Disconnect</button>
+
+
 </div>
 </body>
 </html>

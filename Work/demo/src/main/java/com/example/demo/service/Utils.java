@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @Configuration
 public class Utils{
@@ -128,6 +127,5 @@ public class Utils{
         ieDto.setCountEMAIL(countEMAIL);
         return ieDto;
     }
-
-
+    
 }
