@@ -94,11 +94,10 @@ public class controller{
     }
 
     // Websocket으로 today ip, email 주기적으로 메세지 전송
-    @MessageMapping("/broadcast")
+    @MessageMapping("/sendmessage")
     @SendTo("/topic/messages")
-    public StompMessage send(StompMessage stompMes) throws Exception {
+    public StompMessage send(StompMessage stm) throws Exception {
         return new StompMessage();
     }
 
-  
 }

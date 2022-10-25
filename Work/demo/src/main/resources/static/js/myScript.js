@@ -40,13 +40,8 @@ setInterval(function schedule_API() {
             alert("schedule_API Fail");
         }
     })
-}, 5000); // 5초마다 한번씩
+}, 1000); // 1초마다 한번씩
 
-// setInterval(function websocket(){
-//     $.ajax({
-//         url: ""
-//     })
-// })
 // ajax로 result 호출하기
 function reqIPEmail() { // 정규식 test api 호출
     if(window.event.keyCode == 13){ // enter키 눌렀을 때
@@ -62,9 +57,9 @@ function reqIPEmail() { // 정규식 test api 호출
                 alert("Regex Fail");
             } 
         })
-
-        // websocket
-        sendWebsocket({'text': input});
+        stompClient.subscribe('/topic/message', function (message) {
+            showWebsocketMessage(JSON.parse(message.body)); // 메세지 전송
+        });
     }
 }
 
@@ -83,35 +78,29 @@ function delResult(idx){
     })
 }
 
-// websocket 기본 세팅
-var stompClient = null;
+// // websocket 기본 세팅
 function setConnected(connected) { 
-    $("#from").prop("disabled", connected);
-    $("#connect").prop("disabled", connected);
+    $("#connect").prop("disabled", connected); // prop -> true여부로 상태 교체 가능
     $("#disconnect").prop("disabled", !connected);
 }
 
  // window onload와 동시에 websocket에 connect
- window.onload = function connect() { // 생성된 소켓과 연결
-    var url = 'ws://localhost:8080/broadcast';
-    stompClient = Stomp.client(url); 
+window.onload = function connect() {
+    var url = 'ws://localhost:8080/sendmessage'; // controller MessageMapping
+    stompClient = Stomp.client(url);
     stompClient.connect({}, function () {
+        
         setConnected(true);
     }, function (err) {
-        alert('error : ' + err);
+        alert('error' + err);
     });                
 }
 
-// disconnect 눌렀을 때
-function disconnect() {
-    if (stompClient != null) { // 입력받은 from이 비었을 때
-        stompClient.disconnect(function() {
-            setConnected(false);
-        });                    
-    }                
+function sendMessage(mes){
+    sendWebsocket({'text':mes});
 }
 
-// 입력 내용 console에 출력
 function sendWebsocket(json) {
-    stompClient.send("/app/broadcast", {}, JSON.stringify(json));
+    stompClient.send("/app/sendmessage", {}, JSON.stringify(json));
 }
+
