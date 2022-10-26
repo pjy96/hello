@@ -40,7 +40,7 @@ setInterval(function schedule_API() {
             alert("schedule_API Fail");
         }
     })
-}, 1000); // 1초마다 한번씩
+}, 5000); // 5초마다 한번씩
 
 // ajax로 result 호출하기
 function reqIPEmail() { // 정규식 test api 호출

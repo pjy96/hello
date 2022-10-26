@@ -90,12 +90,12 @@ public class controller{
     @ResponseBody
     public IpEmailCountRESDTO scheduledTask(){
         IpEmailCountRESDTO ieDto = utils.count();
+        // log.info("스케줄러 테스트");
         return ieDto;
     }
 
     // Websocket으로 today ip, email 주기적으로 메세지 전송
     @MessageMapping("/sendmessage")
-    @SendTo("/topic/messages")
     public StompMessage send(StompMessage stm) throws Exception {
         return new StompMessage();
     }
