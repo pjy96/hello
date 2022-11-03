@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/myStyle.css"> <!--css 호출-->
+    <script src="js/myScript.js"></script> <!--js 호출-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!--google font 호출-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!--google font 호출-->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet"> <!--google font 호출-->
+    <script src="https://kit.fontawesome.com/efcb98e1c1.js" crossorigin="anonymous"></script> <!--아이콘 fontawesome kit-->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script> <!--jQuery 호출-->
+
+    <title>주식 검색 사이트</title>
+</head>
+<body>
+    
+    <p class="Now">현재시간 >> </p> <!--현재 시간-->
+    <p class="time" id="time"></p> <!--server time 출력-->
+    
+    <!--회사명/회사코드 입력-->
+    <div class="searchStock">
+        <select name="select" onchange=""> <!--회사명/회사코드 선택-->
+            <option selected value=0>회사명</option>
+            <option value=1>회사코드</option>
+        </select>
+        <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
+        <input id="input" type="text" class="input">
+        <button class="close" onclick="fClose()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
+
+        <p class="result" id="result"></p> <!--결과출력창-->
+
+    </div>
+</body>
+</html>

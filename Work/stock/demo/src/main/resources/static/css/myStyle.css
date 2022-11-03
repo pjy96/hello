@@ -1,0 +1,77 @@
+body{
+    background-color: #ececec;
+}
+.searchStock{ /* div 검색칸 위치와 폰트 설정 */
+    font-family: 'Gowun Batang', serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+input{ /* 검색바 */
+    padding: 10px 40px; /* input 내부 간격 */
+    border-radius: 25px;
+    border: 1px solid #bbb;
+    width: 350px;
+    display: inline-block;
+}
+input:focus,
+input:hover{
+    box-shadow: .5px .5px 5px 1px rgb(187, 187, 187); /* 그림자 설정 */
+    box-shadow: blur;
+    outline: none;
+}
+.magGlass{ /* 돋보기 아이콘 */
+    position: absolute;
+    border: none;
+    color: rgb(154, 154, 154);
+    border-radius: 5px;
+    background-color: transparent;
+    left: 90px;
+    top: 12px;
+    display: inline-block;
+}
+.close{ /* input창 X버튼 */
+    position: absolute;
+    color: rgb(154, 154, 154);
+    background-color: transparent;
+    border: none;
+    right: 10px;
+    top: 12px;
+    cursor: pointer; /* 마우스 다가가면 모양 변화 */
+    display: inline-block;
+}
+.close:focus,
+.close:hover{ /* X표시 아이콘에 마우스 올라갔을 때, 클릭했을 때 색깔 변화 */
+    color: rgb(133, 133, 133);
+}
+.Now{ /* 현재 시간 >> */
+    font-family: 'Gowun Batang', serif;
+    font-weight: bold;
+    font-size: small;
+    background-color: black;
+    color: #e8e8e8;
+    width: 98%;
+    padding: 2px;
+    position: absolute;
+    margin: 0;
+}
+.time{ /* 시간 출력창 */
+    font-family: 'Gowun Batang', serif;
+    font-weight: bold;
+    font-size: small;
+    background-color: transparent;
+    color: #e8e8e8;
+    padding: 2px;
+    position: absolute;
+    left: 85px;
+    margin: 0;
+}
+.result{
+    position: absolute;
+    color: black;
+    font-size: 14px;
+    width: 400px;
+    margin: 10px;
+    padding: 5px;
+}
