@@ -1,4 +1,5 @@
-
+function displaync(){
+}
 
 // xmark function
 function fClose(){
@@ -25,3 +26,9 @@ setInterval(function request_Time(){
     })
 },1000) // 1초마다 한번씩
 
+$(function(){
+    $("#select").change(function(){
+        var displaync = $("#select option:selected").text();
+        $("#input").value(displaync);
+    })
+})
