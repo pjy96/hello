@@ -49,7 +49,7 @@ public class controller {
     }
     
     // 삭제
-    @RequestMapping(value="delResult", method=RequestMethod.GET)
+    @RequestMapping(value="/delResult", method = {RequestMethod.GET, RequestMethod.POST})
     public DeleteDTO delResult(@RequestParam int idx, HttpSession session) {
         Object obj = session.getAttribute("searchArray"); // searchArray 배열
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환

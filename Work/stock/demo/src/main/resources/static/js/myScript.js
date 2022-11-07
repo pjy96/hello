@@ -26,9 +26,19 @@ setInterval(function request_Time(){
     })
 },1000) // 1초마다 한번씩
 
-$(function(){
-    $("#select").change(function(){
-        var displaync = $("#select option:selected").text();
-        $("#input").value(displaync);
-    })
-})
+// select 마다 다른 placeholder
+function ddlselect(){
+    var d = document.getElementById('#select').value;
+    if(d = 0){
+        // $(".input2").hide();
+        // $(".input1").show();
+        alert(d);
+    }else if(d = 1){
+        // document.getElementById("input2").disabled = false;
+        // $(".input2").show();
+        // $(".input1").hide();
+        alert(d);
+
+    }
+
+}

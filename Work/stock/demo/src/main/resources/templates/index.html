@@ -21,12 +21,15 @@
     
     <!--회사명/회사코드 입력-->
     <div class="searchStock">
-        <select name="select" class="sbox"> <!--회사명/회사코드 선택-->
-            <option selected value="회사명을 입력하세요.">회사명</option>
-            <option value="회사코드를 입력하세요.">회사코드</option>
+        <select name="select" class="sbox" id="select" onchange="ddlselect()"> <!--회사명/회사코드 선택-->
+            <option disabled selected>--select--</option>
+            <option value="0">회사명</option>
+            <option value="1">회사코드</option>
         </select>
+    
         <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
-        <input id="input" type="text" class="input">
+        <input id="input1" type="text" class="input" placeholder="회사명을 입력하세요.">
+        <input id="input2" type="text" class="input" placeholder="회사코드를 입력하세요." disabled hidden>
         <button class="close" onclick="fClose()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
 
         <p class="result" id="result"></p> <!--결과출력창-->
