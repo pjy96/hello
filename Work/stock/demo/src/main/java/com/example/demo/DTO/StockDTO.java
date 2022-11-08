@@ -11,5 +11,4 @@ public class StockDTO {
     int st_price; // 가격(종가)
     String st_rate; // 등락률
 
-    String result; // 출력할 결과물
 }

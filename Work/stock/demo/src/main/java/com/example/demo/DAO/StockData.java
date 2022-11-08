@@ -29,6 +29,4 @@ public class StockData {
     @Column(name = "st_rate", columnDefinition = "varchar(10) comment '등락률'")
     private String change_rate; // 등락률
 
-    @Column(name = "result", columnDefinition = "varchar(25) commment '결과")
-    private String result; // 결과
 }

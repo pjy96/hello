@@ -7,19 +7,19 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: flex;
+    display: block;
 }
 .sbox{ /* select box */
-    position: relative;
+    position: absolute;
     font-family: 'Gowun Batang', serif;
     width: 80px;
     height: 35px;
-    left: 20px;
     top: 3px;
     padding: .5em .3em;
     border: 1px solid #aaaaaa;
     box-sizing: border-box;
     border-radius: 10px;
+    left: -90px;
 }
 .sbox:focus,
 .sbox:hover{
@@ -27,7 +27,7 @@ body{
     box-shadow: blur;
     outline: none;
 }
-input{ /* 검색바 */
+.input{ /* 검색바 */
     font-family: 'Gowun Batang', serif;
     padding: 10px 40px; /* input 내부 간격 */
     border-radius: 25px;
@@ -35,21 +35,23 @@ input{ /* 검색바 */
     width: 350px;
 }
 .magGlass{ /* 돋보기 아이콘 */
-    position: relative;
+    position: absolute;
     border: none;
     background-color: transparent;
-    left: 35px;
-    top: 1px;
+    left: 6px;
+    top: 13px;
     color: rgb(154, 154, 154);
+    display: inline-block;
 }
 .close{ /* input창 X버튼 */
-    position: relative;
+    position: absolute;
     color: rgb(154, 154, 154);
     background-color: transparent;
     border: none;
-    right: 32px;
-    top: 1px;
+    right: 11px;
+    top: 13px;
     cursor: pointer;
+    display: inline-block;
 }
 input:focus,
 input:hover{

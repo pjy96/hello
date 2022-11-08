@@ -30,9 +30,10 @@ public class controller {
         return "index.html";
     }
     
+    // getTimeZone
     @GetMapping("/getTime")
     @ResponseBody
-    public GetTimeDTO getTime(GetTimeDTO gt){
+    public GetTimeDTO getTime(GetTimeDTO gt){ 
         String getTimeZone = gt.getTimezone();
         if(getTimeZone == null){
             getTimeZone="Asia/Seoul";

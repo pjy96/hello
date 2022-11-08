@@ -1,6 +1,3 @@
-function displaync(){
-}
-
 // xmark function
 function fClose(){
     var inputbar = document.getElementById('input');
@@ -26,19 +23,16 @@ setInterval(function request_Time(){
     })
 },1000) // 1초마다 한번씩
 
-// select 마다 다른 placeholder
-function ddlselect(){
-    var d = document.getElementById('#select').value;
-    if(d = 0){
-        // $(".input2").hide();
-        // $(".input1").show();
-        alert(d);
-    }else if(d = 1){
-        // document.getElementById("input2").disabled = false;
-        // $(".input2").show();
-        // $(".input1").hide();
-        alert(d);
-
+// select 선택할때마다 다른 placeholder
+function ddlselect(){  
+    var d = $("select").val();
+    if(d == 0){
+        document.getElementById("d1").style.display = "inline-block";
+        document.getElementById("d2").style.display = "none";
     }
-
+    else{
+        document.getElementById("d1").style.display = "none";
+        document.getElementById("d2").style.display = "inline-block";
+    }
 }
+

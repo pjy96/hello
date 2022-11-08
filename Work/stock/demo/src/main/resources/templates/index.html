@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet"> <!--google font 호출-->
     <script src="https://kit.fontawesome.com/efcb98e1c1.js" crossorigin="anonymous"></script> <!--아이콘 fontawesome kit-->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script> <!--jQuery 호출-->
-
     <title>주식 검색 사이트</title>
 </head>
 <body>
@@ -21,18 +20,30 @@
     
     <!--회사명/회사코드 입력-->
     <div class="searchStock">
-        <select name="select" class="sbox" id="select" onchange="ddlselect()"> <!--회사명/회사코드 선택-->
+
+        <!--회사명/회사코드 선택-->
+        <select class="sbox" id="select" onchange="ddlselect()">
             <option disabled selected>--select--</option>
-            <option value="0">회사명</option>
+            <option value="0" selected>회사명</option>
             <option value="1">회사코드</option>
         </select>
     
-        <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
-        <input id="input1" type="text" class="input" placeholder="회사명을 입력하세요.">
-        <input id="input2" type="text" class="input" placeholder="회사코드를 입력하세요." disabled hidden>
-        <button class="close" onclick="fClose()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
+        <!--최초에 보이는 상태(회사명 select)-->
+        <div id="d1" style="display:block">
+            <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
+            <input type="text" class="input" placeholder="회사명을 입력하세요.">
+            <button class="close" onclick="fClose()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
+        </div>
 
-        <p class="result" id="result"></p> <!--결과출력창-->
+        <!--회사코드 select했을때 보이는 상태(숨김상태)-->
+        <div id="d2" style="display:none">
+            <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
+            <input type="number" max="999999" class="input" placeholder="회사코드를 입력하세요."> <!--숫자만 입력 가능-->
+            <button class="close" onclick="fClose()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
+        </div>
+
+        <!--결과출력창-->
+        <p class="result" id="result"></p> 
 
     </div>
 </body>

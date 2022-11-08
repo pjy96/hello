@@ -68,7 +68,6 @@ public class Utils {
             str += searchArray.get(i) + String.format(formatDel, i);
         }
 
-        stkDto.setResult(str); // DTO에 결과 저장
         
         return stkDto;
     }
@@ -89,15 +88,19 @@ public class Utils {
 
     // 회사명으로 입력한 데이터 DB에 있는지 검색
     public StockDTO searchName(){
-        StockDTO stkDto = new StockDTO();
+        StockDTO stkDto = new StockDTO(); // DTO
+        StockData stkData = new StockData(); // repository
         List<StockData> resultName = repo.findByCode(123456); // List에 repo에서 code가 123456인 Data 가져오기
 
         return stkDto;
     }
 
     // 회사번호으로 입력한 데이터 DB에 있는지 검색
+    
     public StockDTO searchCode(){
-        StockDTO stkDto = new StockDTO();
+        StockDTO stkDto = new StockDTO(); // DTO
+        StockData stkData = new StockData(); // repository
+
         List<StockData> resultCode = repo.findByCode(123456); // List에 repo에서 code가 123456인 Data 가져오기
 
         return stkDto;
