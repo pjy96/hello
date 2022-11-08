@@ -92,6 +92,8 @@ public class Utils {
         StockData stkData = new StockData(); // repository
         List<StockData> resultName = repo.findByCode(123456); // List에 repo에서 code가 123456인 Data 가져오기
 
+        stkData.setName(stkDto.getCp_name()); // DTO에서 repo로 저장
+
         return stkDto;
     }
 
