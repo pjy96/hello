@@ -42,7 +42,7 @@ public class controller {
     }
 
     // 입력받은 데이터 저장 & 가격과 등락률 검색 & 화면에 5개씩 출력
-    @RequestMapping(value="/searchStock", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value="/searchStock", method = {RequestMethod.GET})
     public StockDTO getStockPrice(@RequestParam String param, HttpServletRequest req) {
         Object obj = req.getSession().getAttribute("searchArray"); // searchArray 배열
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환
@@ -50,7 +50,7 @@ public class controller {
     }
     
     // 삭제
-    @RequestMapping(value="/delResult", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value="/delResult", method = {RequestMethod.GET})
     public DeleteDTO delResult(@RequestParam int idx, HttpSession session) {
         Object obj = session.getAttribute("searchArray"); // searchArray 배열
         List<String> arrList = (List<String>)obj; // List<object> to List<String> 형변환

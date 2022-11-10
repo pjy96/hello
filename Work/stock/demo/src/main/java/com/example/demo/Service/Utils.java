@@ -42,9 +42,9 @@ public class Utils {
     // 입력데이터 출력 & select data & save data
     public StockDTO getStockPrices(String params, List<String> searchArray, HttpServletRequest req){
 
-        StockDTO stkDto = new StockDTO();
+        StockDTO stkDto = new StockDTO(); // DTO
         StockData stockData = new StockData(); // DB에 저장
-        stkDto.setCp_code(params); // 입력값 회사명에 보내기(?)
+        // stkDto.setCp_code(params); // 입력값 회사명에 보내기(?)
 
         // timezone
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
@@ -89,11 +89,17 @@ public class Utils {
     // 회사명으로 입력한 데이터 DB에 있는지 검색
     public StockDTO searchName(){
         StockDTO stkDto = new StockDTO(); // DTO
-        StockData stkData = new StockData(); // repository
-        List<StockData> resultName = repo.findByCode(123456); // List에 repo에서 code가 123456인 Data 가져오기
+        // StockData stkData = new StockData(); // repository
+        List<StockData> resultName = repo.findByCode(stkDto.getCp_code()); // repo에서 dto에 저장된 cp_code Data 가져와서 List에 저장
+ 
+        String str = "";
 
-        stkData.setName(stkDto.getCp_name()); // DTO에서 repo로 저장
+        for(StockData stk : resultName){
+            
+        }
+        // stkData.setName(stkDto.getCp_name()); // DTO에서 repo로 저장
 
+        
         return stkDto;
     }
 
@@ -104,7 +110,7 @@ public class Utils {
         StockData stkData = new StockData(); // repository
 
         List<StockData> resultCode = repo.findByCode(123456); // List에 repo에서 code가 123456인 Data 가져오기
-
+        
         return stkDto;
     }
 

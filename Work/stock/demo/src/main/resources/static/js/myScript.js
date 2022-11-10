@@ -1,7 +1,12 @@
-// xmark function
+// 회사명 검색바 내용 삭제
 function fClose(){
     var inputbar = document.getElementById('input');
-    inputbar.value = ""; //검색바 내용 삭제
+    inputbar.value = ""; 
+}
+// 회사코드 검색바 내용 삭제
+function fClose1(){
+    var inputbar1 = document.getElementById('input1');
+    inputbar1.value = "";
 }
 
 // 서버시간 호출
@@ -36,3 +41,37 @@ function ddlselect(){
     }
 }
 
+
+// result 호출하기
+function searchStock(){
+    if(window.event.keyCode == 13){ // enter 키를 눌렀을 때
+        var input = $('#input').val(); // input에서 회사명 입력 받은 것
+        var input1 = $('#input1').val(); // input에서 회사코드를 입력 받은 것
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/searchStock?params=" + input, // input
+            success: function(res){
+                const result = document.getElementById("result"); // result 출력창
+                result.innerHTML = res.result; // result 화면에 출력
+            },
+            error: function(){
+                alert("Search Fail");
+            }
+        })
+    }
+}
+
+// result delete
+function delResult(idx){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/delResult?idx=" + idx, // array(idx) 삭제
+        success: function(idx){
+            const result = document.getElementById("result"); // result 출력창
+            result.innerHTML = idx.result; // 삭제후 재출력
+        },
+        error: function(){
+            alert("Delete Fail");
+        }
+    })
+}

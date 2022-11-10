@@ -8,5 +8,4 @@ import lombok.Setter;
 public class GetTimeDTO {
     String timezone;
     String datetime;
-    
 }
