@@ -90,25 +90,3 @@ function delResult(idx) {
         }
     })
 }
-
-// open api 불어오기 test
-function getAPITest() {
-    $.ajax({
-        type: "GET",
-        url: "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService",
-        data: {
-            serviceKey: "serviceKey", // 서비스키
-            numOfRows: "numOfRows", // 한 페이지 결과 수
-            pageNo: "pageNo", // 페이지 번호
-            resultType: "resultType", // 구분(xml, json) Default xml
-
-        },
-        success: function (msg) {
-            alert("Success! message : " + msg)
-            
-        },
-        error: function () {
-            alert("API Test Fail");
-        }
-    })
-}
