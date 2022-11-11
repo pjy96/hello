@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +27,10 @@ public class Utils {
     // 삭제버튼
     final String formatDel = "<button class=del onclick=\"delResult(%d)\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
 
-    public GetTimeDTO getTime(String timeZone){
+    // 가격 price = "<p class=cssprice>" + price + "</p>";
+
+    // timezone
+    public GetTimeDTO getTime(String timeZone) {
         GetTimeDTO gettimeparams = new GetTimeDTO();
         TimeZone tz;
         Date date = new Date();
@@ -38,13 +42,23 @@ public class Utils {
         gettimeparams.setDatetime(df.format(date));
         return gettimeparams;
     }
-    
-    // 입력데이터 출력 & select data & save data
-    public StockDTO getStockPrices(String params, List<String> searchArray, HttpServletRequest req){
+
+    // 회사명 입력데이터 출력 & select data & save data
+    public StockDTO getStockPrices(String params, List<String> searchArray, HttpServletRequest req) {
 
         StockDTO stkDto = new StockDTO(); // DTO
-        StockData stockData = new StockData(); // DB에 저장
-        // stkDto.setCp_code(params); // 입력값 회사명에 보내기(?)
+        StockData stockData = new StockData(); // DB
+
+        // 만약에 입력받은 param이 회사명인지 회사코드인지 확인 후 DTO에 저장
+        Pattern p = Pattern.compile("^\\d{6}$"); // Regex : 6자리의 숫자
+        Matcher m = p.matcher(params);
+        if (m.matches() == false) { // 입력받은 params가 회사명일때
+            stkDto.setCp_name(params);
+            stockData.setName(stkDto.getCp_name()); // repository에 저장
+        } else if (m.matches()) { // 입력받은 params가 회사코드일때
+            stkDto.setCp_code(params);
+            stockData.setCode(stkDto.getCp_code());
+        }
 
         // timezone
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
@@ -59,26 +73,25 @@ public class Utils {
         stockData.setName(params); // DB에 저장
 
         // 5개 이상일 때 가장 먼저 입력된 데이터 삭제
-        if(searchArray.size()>5){
+        if (searchArray.size() > 5) {
             searchArray.remove(5);
         }
 
         // String으로 배열 출력
-        for(int i=0; i<searchArray.size(); i++){
+        for (int i = 0; i < searchArray.size(); i++) {
             str += searchArray.get(i) + String.format(formatDel, i);
         }
 
-        
         return stkDto;
     }
-    
+
     // delete
     public DeleteDTO deleteResult(int idx, List<String> searchArray) {
-        
+
         DeleteDTO delDto = new DeleteDTO();
         String str = "";
         searchArray.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
-        for(int i=0; i<searchArray.size(); i++){ // 삭제 후 배열 재출력
+        for (int i = 0; i < searchArray.size(); i++) { // 삭제 후 배열 재출력
             str += searchArray.get(i) + String.format(formatDel, i);
         }
         // delDto.setResult(str);
@@ -87,32 +100,30 @@ public class Utils {
     }
 
     // 회사명으로 입력한 데이터 DB에 있는지 검색
-    public StockDTO searchName(){
+    public StockDTO searchName() {
         StockDTO stkDto = new StockDTO(); // DTO
         // StockData stkData = new StockData(); // repository
         List<StockData> resultName = repo.findByCode(stkDto.getCp_code()); // repo에서 dto에 저장된 cp_code Data 가져와서 List에 저장
- 
+
         String str = "";
 
-        for(StockData stk : resultName){
-            
+        for (StockData stk : resultName) {
+
         }
         // stkData.setName(stkDto.getCp_name()); // DTO에서 repo로 저장
 
-        
         return stkDto;
     }
 
     // 회사번호으로 입력한 데이터 DB에 있는지 검색
-    
-    public StockDTO searchCode(){
+
+    public StockDTO searchCode() {
         StockDTO stkDto = new StockDTO(); // DTO
         StockData stkData = new StockData(); // repository
 
-        List<StockData> resultCode = repo.findByCode(123456); // List에 repo에서 code가 123456인 Data 가져오기
-        
+        List<StockData> resultCode = repo.findByName(stkDto.getCp_name()); // repo에서 dto에 저장된 cp_name Data 가져와서 List에 저장
+
         return stkDto;
     }
 
 }
-

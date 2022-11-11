@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,15 +11,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!--google font 호출-->
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet"> <!--google font 호출-->
     <script src="https://kit.fontawesome.com/efcb98e1c1.js" crossorigin="anonymous"></script> <!--아이콘 fontawesome kit-->
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script> <!--jQuery 호출-->
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script> <!--jquery CDN-->
     <title>주식 검색 사이트</title>
 </head>
+
 <body>
-    
     <p class="Now">현재시간 >> </p> <!--현재 시간-->
     <p class="time" id="time"></p> <!--server time 출력-->
-    
-    <!--회사명/회사코드 입력-->
+
+    <!--input-->
     <div class="searchStock">
 
         <!--회사명/회사코드 선택-->
@@ -27,7 +28,7 @@
             <option value="0" selected>회사명</option>
             <option value="1">회사코드</option>
         </select>
-    
+
         <!--최초에 보이는 상태(회사명 select)-->
         <div id="d1" style="display:block">
             <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
@@ -38,13 +39,15 @@
         <!--회사코드 select했을때 보이는 상태(숨김상태)-->
         <div id="d2" style="display:none">
             <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
-            <input  id="input1" type="text" class="input" placeholder="회사코드를 입력하세요." oninput="this.value = this.value.replace(/[^0-9]/g, '');"> <!--숫자만 입력 가능-->
+            <input id="input1" type="text" class="input" placeholder="회사코드를 입력하세요."
+                oninput="this.value = this.value.replace(/[^0-9]/g, '');"> <!--숫자만 입력 가능-->
             <button class="close" onclick="fClose1()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
         </div>
 
         <!--결과출력창-->
-        <p class="result" id="result"></p> 
+        <p class="result" id="result"></p>
 
     </div>
 </body>
+
 </html>

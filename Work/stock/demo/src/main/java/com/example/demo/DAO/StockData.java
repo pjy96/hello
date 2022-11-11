@@ -17,16 +17,16 @@ public class StockData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 기본키
 
-    @Column(name = "cp_name", columnDefinition = "varchar(25) not null comment '종목명'")
+    @Column(name = "cp_name", columnDefinition = "varchar(25) comment '종목명'")
     private String name; // 회사 이름(종목명)
 
-    @Column(name = "cp_code", columnDefinition = "int(6) not null comment '종목코드'")
+    @Column(name = "cp_code", columnDefinition = "char(6) comment '종목코드'")
     private String code; // 회사 주식 코드(종목코드)
 
     @Column(name = "st_price", columnDefinition = "int(10) comment '가격'")
     private int price; // 가격(종가)
 
-    @Column(name = "st_rate", columnDefinition = "varchar(10) comment '등락률'")
+    @Column(name = "st_rate", columnDefinition = "varchar(11) comment '등락률'")
     private String change_rate; // 등락률
 
 }
