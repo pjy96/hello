@@ -39,6 +39,7 @@ public class controller {
     }
 
     @RequestMapping(value="/search", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
     public StockDTO getStockPrice(@RequestParam String param) {
         log.info("PARAM : " + param);
         return utils.getStockPrices(param);
