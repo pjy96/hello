@@ -22,32 +22,20 @@
     <!--input-->
     <div class="searchStock">
 
-        <!--회사명/회사코드 선택-->
-        <select class="sbox" id="select" onchange="ddlselect()">
-            <option disabled selected>--select--</option>
-            <option value="0" selected>회사명</option>
-            <option value="1">회사코드</option>
-        </select>
 
         <!--최초에 보이는 상태(회사명 select)-->
         <div id="d1" style="display:block">
             <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
-            <input id="input" type="text" class="input" placeholder="회사명을 입력하세요.">
+            <!-- <input id="input" type="text" class="input" placeholder="회사명을 입력하세요." onkeypress="searchStock()"> -->
+            <input type="text" id="input" class="input" onkeypress="searchStock()">
             <button class="close" onclick="fClose()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
         </div>
 
-        <!--회사코드 select했을때 보이는 상태(숨김상태)-->
-        <div id="d2" style="display:none">
-            <button class="magGlass"><i class="fa-solid fa-magnifying-glass"></i></button> <!--돋보기 버튼-->
-            <input id="input1" type="text" class="input" placeholder="회사코드를 입력하세요."
-                oninput="this.value = this.value.replace(/[^0-9]/g, '');"> <!--숫자만 입력 가능-->
-            <button class="close" onclick="fClose1()"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button> <!--input 삭제 버튼-->
-        </div>
 
+    </div>
         <!--결과출력창-->
         <p class="result" id="result"></p>
 
-    </div>
 </body>
 
 </html>
