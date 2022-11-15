@@ -94,3 +94,22 @@ input:hover{
     margin: 10px;
     padding: 5px;
 }
+.csstime{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    width: 145px;
+    color: rgb(58, 121, 237);
+    margin: 2px;
+}
+.del{
+    float: right; /* 오른쪽 정렬 */
+    border: none;
+    background: transparent;
+    color: rgb(154, 154, 154);
+    cursor: pointer;
+}
+.del:hover,
+.del:focus{ /* 삭제버튼 마우스 가까이 갔을 때, 클릭했을 때 */
+    color: rgb(133, 133, 133);
+}
