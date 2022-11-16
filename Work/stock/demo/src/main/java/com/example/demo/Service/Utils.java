@@ -3,16 +3,18 @@ package com.example.demo.Service;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.*;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tomcat.util.json.JSONParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +74,7 @@ public class Utils {
             stockData.setCode(stockDTO.getCp_code()); // repository에 저장
         }
 
-        searchArray.add(0, time + param);
+        str += time + param + formatDel;
 
 
         stockDTO.setResult(str);
@@ -93,17 +95,26 @@ public class Utils {
     // open api 불러오는 예시 소스
     public StockDTO openAPIStock(){
         StockDTO stockDTO = new StockDTO();
-        String key = "rxfav9g20svzi6USPiNW6bNLrNi7Yk0nScVPsY8dLjMmud7sg%2FAx%2BNGk4V6WGIphulP4FxqxpKx1FU81bAml1A%3D%3D"; // 인증키
+        String key = "rxfav9g20svzi6USPiNW6bNLrNi7Yk0nScVPsY8dLjMmud7sg%2FAx%2BNGk4V6WGIphulP4FxqxpKx1FU81bAml1A%3D%3D"; // Encoding 인증키
+        // String decodingkey = "rxfav9g20svzi6USPiNW6bNLrNi7Yk0nScVPsY8dLjMmud7sg/Ax+NGk4V6WGIphulP4FxqxpKx1FU81bAml1A=="; // decoding 인증키
         String result = ""; // 파싱할 데이터를 저장할 변수
-        String apiUrl = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService"; // open api url
+        String apiUrl = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo"; // open api url
         try{
-            URL url = new URL(apiUrl + key);
-            BufferedReader bf;
-            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-            result = bf.readLine();
-            
 
-            
+            apiUrl += "?serviceKey=" + key + "&numOfRows=1&" + "회사명/회사코드=" + "getinput";
+
+            URL url = new URL(apiUrl);
+
+            // JSON parser 만들어 문자열 데이터 객체화 한다.
+            JSONParser jParser = new JSONParser();
+            JSONObject jObj = (JSONObject)jParser.parse(result);
+
+            // list 아래가 배열형태로
+            JSONArray listArr = (JSONArray)jObj.get("list");
+
+            for(int i=0; i<listArr.size(); i++){
+                
+            }
 
         }catch(Exception e){
             e.printStackTrace();
