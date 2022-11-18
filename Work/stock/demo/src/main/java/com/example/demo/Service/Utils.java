@@ -2,19 +2,15 @@ package com.example.demo.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.*;
-import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +18,15 @@ import com.example.demo.DAO.StockData;
 import com.example.demo.DTO.DeleteDTO;
 import com.example.demo.DTO.GetTimeDTO;
 import com.example.demo.DTO.StockDTO;
+import com.example.demo.common.Common;
 import com.example.demo.repository.stockrepository;
 
 @Service
-public class Utils {
+public class Utils{
 
     @Autowired
     stockrepository repo; // repository
-
-    // 삭제버튼
-    final String formatDel = "<button class=del onclick=\"delResult(%d)\"><i class=\"fa-solid fa-delete-left\"></i></button><br>";
-
+   
     // 가격 price = "<p class=cssprice>" + price + "</p>";
 
     // timezone
@@ -50,7 +44,7 @@ public class Utils {
     }
 
     // 회사명 입력데이터 출력 & select data & save data
-    public StockDTO getStockPrices(String param, List<String> searchArray, HttpServletRequest req) {
+    public StockDTO getStockPrices(String param) {
 
         StockDTO stockDTO = new StockDTO(); // DTO
         StockData stockData = new StockData(); // repository
@@ -74,8 +68,7 @@ public class Utils {
             stockData.setCode(stockDTO.getCp_code()); // repository에 저장
         }
 
-        str += time + param + formatDel;
-
+        str += time + param + Common.formatDel;
 
         stockDTO.setResult(str);
         repo.save(stockData); // stockData에 set한 data -> repo에 저장
@@ -83,45 +76,80 @@ public class Utils {
         return stockDTO;
     }
 
-    public DeleteDTO deleteResult(int idx, List<String> searchArray){
+    public DeleteDTO delResult(int idx){
+
         DeleteDTO delDto = new DeleteDTO();
-        String str = "";
-        searchArray.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
-        str += idx + formatDel;
-        delDto.setResult(str);
+
         return delDto;
     }
 
-    // open api 불러오는 예시 소스
-    public StockDTO openAPIStock(){
+    /*
+     * 1.회사명 (C->S)
+     * 2.회사명으로 코드 찾기 -> DB
+     * 2.1 있을때
+     *  2.1.1 KRX 요청하기 외부 api. 현재가 주가 S->KRX
+          
+     * 2.2 없을때
+     *  2.2 KRX 회사명 요청해서 회사코드 받아오기 -> S->KRX
+     *  2.3 받아온 회사코드 내부 db에 저장하기
+     *  2.1.1 하기
+     * 
+     * 3. 받아온 결과 정리
+     * 4. 정리된 값 전달 (S->C) 
+     * 
+     * 
+     *  회사정보를 가져오는 API
+     * 
+     * 
+     */
+
+
+
+
+
+    // open api
+    public StockDTO openAPIStock(String params){
         StockDTO stockDTO = new StockDTO();
-        String key = "rxfav9g20svzi6USPiNW6bNLrNi7Yk0nScVPsY8dLjMmud7sg%2FAx%2BNGk4V6WGIphulP4FxqxpKx1FU81bAml1A%3D%3D"; // Encoding 인증키
-        // String decodingkey = "rxfav9g20svzi6USPiNW6bNLrNi7Yk0nScVPsY8dLjMmud7sg/Ax+NGk4V6WGIphulP4FxqxpKx1FU81bAml1A=="; // decoding 인증키
-        String result = ""; // 파싱할 데이터를 저장할 변수
-        String apiUrl = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo"; // open api url
+        BufferedReader br = null;
         try{
+            String apiBaseUrl = "https://apis.data.go.kr/1160100/service/GetKrxListedInfoService/getItemInfo"; // KRX에 상장된 종목에 대한 정보 조회 API
+            String reqParams = "?serviceKey=" + Common.KrxKey;
+            reqParams += "&numOfRows=1"; // 날짜별로 많은 데이터가 나오는데 가장 최신 데이터로 설정
+            reqParams += "&itmsNm=" + params; // 종목명으로 입력
 
-            apiUrl += "?serviceKey=" + key + "&numOfRows=1&" + "회사명/회사코드=" + "getinput";
+            apiBaseUrl = apiBaseUrl+ URLEncoder.encode(reqParams,"UTF-8");
 
-            URL url = new URL(apiUrl);
+            URL url = new URL(apiBaseUrl);
 
-            // JSON parser 만들어 문자열 데이터 객체화 한다.
-            JSONParser jParser = new JSONParser();
-            JSONObject jObj = (JSONObject)jParser.parse(result);
+            // 요청하고자 하는 url과 통신하기위한 connection 생성
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            // 통신을 위한 메소드 set
+            urlConnection.setRequestMethod("GET");
 
-            // list 아래가 배열형태로
-            JSONArray listArr = (JSONArray)jObj.get("list");
-
-            for(int i=0; i<listArr.size(); i++){
-                
+            br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF_8"));
+            
+            String result = "";
+            String line;
+            while((line = br.readLine()) != null){
+                result = result + line + "\n";
             }
+            stockDTO.setCp_name(params);
+            stockDTO.setCp_code(result);
+            // stockDTO.setResult(result);
 
         }catch(Exception e){
             e.printStackTrace();
         }
 
+        return stockDTO;
+    }
 
+    // 이름 검색했을 때 종목코드 나오게
+    public StockDTO searchKRX(String params){
+        StockDTO stockDTO = new StockDTO();
 
         return stockDTO;
     }
+
+
 }
