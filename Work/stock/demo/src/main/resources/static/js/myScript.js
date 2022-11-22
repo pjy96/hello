@@ -59,7 +59,7 @@ function searchStockName() {
     }
 }
 
-// 회사코드으로 입력받은 parma으로 result 호출하기
+// 회사코드으로 입력받은 param으로 result 호출하기
 function searchStockCode() {
     var input1 = $('#input1').val(); // input에서 회사코드를 입력 받은 것
     if (window.event.keyCode == 13) {

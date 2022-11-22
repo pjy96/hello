@@ -78,13 +78,11 @@
 			<version>3.5.1 </version>
 		</dependency>
 		
-		<!-- JSON 형태의 데이터 생성 및 내용 읽기를 위한 라이브러리 다운로드 -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-
 
 
 	</dependencies>

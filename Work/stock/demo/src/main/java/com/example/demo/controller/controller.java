@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,19 +37,15 @@ public class controller {
         return utils.getTime(getTimeZone);
     }
 
-    // 입력받은 데이터 저장 & 가격과 등락률 검색
+    // 회사 이름 검색시 회사 코드를 가져오는 API
     @GetMapping("/search")
     @ResponseBody
-    public StockDTO getStockPrice(@RequestParam String param) {
-        return utils.openAPIStock(param);
+    public StockDTO getStockPrice(@RequestParam String param, HttpServletRequest req) {
+        Object obj = req.getSession().getAttribute("searchArray"); // 배열 생성
+        List<String> arrList = (List<String>)obj; // List<Object> to List<String> 형변환
+        return utils.openAPIStock(param, arrList);
     }
-    
-    // 회사 이름 검색시 회사 코드를 가져오는 API
-    @GetMapping("/searchCode")
-    @ResponseBody
-    public void name() {
-        
-    }
+
 
 
 }
