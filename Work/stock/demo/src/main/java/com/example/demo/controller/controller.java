@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,15 +37,21 @@ public class controller {
         return utils.getTime(getTimeZone);
     }
 
-    // 회사 이름 검색시 회사 코드를 가져오는 API
-    @GetMapping("/search")
+    // 회사 이름 검색
+    @GetMapping("/searchName")
     @ResponseBody
-    public StockDTO getStockPrice(@RequestParam String param, HttpServletRequest req) {
-        Object obj = req.getSession().getAttribute("searchArray"); // 배열 생성
+    public StockDTO getStockName(@RequestParam String param, HttpSession ses) {
+        Object obj = ses.getAttribute("searchArray"); // 배열 생성
         List<String> arrList = (List<String>)obj; // List<Object> to List<String> 형변환
-        return utils.openAPIStock(param, arrList);
+        return utils.openAPIStockName(param, arrList);
     }
 
-
-
+    // 회사 단축코드 검색
+    @GetMapping("/searchCode")
+    @ResponseBody
+    public StockDTO getStockCode(@RequestParam String param, HttpSession ses) {
+        Object obj = ses.getAttribute("searchArray"); // 배열 생성
+        List<String> arrList = (List<String>)obj; // List<Object> to List<String> 형변환
+        return utils.openAPIStockCode(param, arrList);
+    }
 }

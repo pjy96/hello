@@ -34,26 +34,29 @@ function ddlselect() {
     if (d == 0) {
         document.getElementById("d1").style.display = "inline-block";
         document.getElementById("d2").style.display = "none";
+        document.querySelector("#d2").disabled = true;
     }
     else {
         document.getElementById("d1").style.display = "none";
         document.getElementById("d2").style.display = "inline-block";
+        document.querySelector("#d1").disabled = true;
+
     }
 }
 
-// 회사명으로 입력받은 parma으로 result 호출하기
+// 회사명으로 입력받은 param으로 result 호출하기
 function searchStockName() {
     var input = $('#input').val(); // input에서 회사명 입력 받은 것
     if (window.event.keyCode == 13) {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/search?param=" + input,
+            url: "http://localhost:8080/searchName?param=" + input,
             success: function (res) {
                 const result = document.getElementById("result");
                 result.innerHTML = res.result;
             },
             error: function () {
-                alert("SearchStockName Fail");
+                alert("종목명이 존재하지 않습니다.");
             }
         })
     }
@@ -65,28 +68,28 @@ function searchStockCode() {
     if (window.event.keyCode == 13) {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/search?param=" + input1,
+            url: "http://localhost:8080/searchCode?param=" + input1,
             success: function (res) {
                 const result = document.getElementById("result");
                 result.innerHTML = res.result;
             },
             error: function () {
-                alert("SearchStockCode Fail");
+                alert("종목코드가 존재하지 않습니다.");
             }
         })
     }
 }
 
-function delResult(idx){
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/delete?idx=" + idx,
-        success: function(idx){
-            const result = document.getElementById("result"); // result 출력창
-            result.innerHTML = idx.result; // 삭제 후 재출력
-        },
-        error: function(){
-            alert("Delete Fail");
-        }
-    })
-}
+// function delResult(idx){
+//     $.ajax({
+//         type: "GET",
+//         url: "http://localhost:8080/delete?idx=" + idx,
+//         success: function(idx){
+//             const result = document.getElementById("result"); // result 출력창
+//             result.innerHTML = idx.result; // 삭제 후 재출력
+//         },
+//         error: function(){
+//             alert("Delete Fail");
+//         }
+//     })
+// }
