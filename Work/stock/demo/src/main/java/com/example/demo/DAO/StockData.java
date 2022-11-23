@@ -23,7 +23,7 @@ public class StockData {
     @Column(name = "cp_code", columnDefinition = "char(6) not null comment '종목코드'")
     private String code; // 회사 주식 코드(종목코드)
 
-    @Column(name = "st_price", columnDefinition = "varchar(70) comment '가격'")
+    @Column(name = "st_price", columnDefinition = "varchar(255) comment '가격'")
     private String price; // 가격(종가)
 
     @Column(name = "st_rate", columnDefinition = "varchar(11) comment '등락률'")

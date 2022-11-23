@@ -28,19 +28,16 @@ setInterval(function request_Time() {
     })
 }, 1000) // 1초마다 한번씩
 
-// select 선택할때마다 다른 placeholder
+// select 선택할때마다 다른 placeholder & input
 function ddlselect() {
     var d = $("select").val();
     if (d == 0) {
         document.getElementById("d1").style.display = "inline-block";
         document.getElementById("d2").style.display = "none";
-        document.querySelector("#d2").disabled = true;
     }
     else {
         document.getElementById("d1").style.display = "none";
         document.getElementById("d2").style.display = "inline-block";
-        document.querySelector("#d1").disabled = true;
-
     }
 }
 
@@ -80,16 +77,7 @@ function searchStockCode() {
     }
 }
 
-// function delResult(idx){
-//     $.ajax({
-//         type: "GET",
-//         url: "http://localhost:8080/delete?idx=" + idx,
-//         success: function(idx){
-//             const result = document.getElementById("result"); // result 출력창
-//             result.innerHTML = idx.result; // 삭제 후 재출력
-//         },
-//         error: function(){
-//             alert("Delete Fail");
-//         }
-//     })
-// }
+function delResult(){
+    const result = document.getElementById("result"); // result 출력창
+    result.innerHTML = "";
+}
