@@ -77,6 +77,7 @@ function searchStockCode() {
     }
 }
 
+// 삭제버튼
 function delResult(){
     const result = document.getElementById("result"); // result 출력창
     result.innerHTML = "";

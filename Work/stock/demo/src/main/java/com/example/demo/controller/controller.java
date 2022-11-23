@@ -37,7 +37,7 @@ public class controller {
         return utils.getTime(getTimeZone);
     }
 
-    // 회사 이름 검색
+    // 회사명으로 검색
     @GetMapping("/searchName")
     @ResponseBody
     public StockDTO getStockName(@RequestParam String param, HttpSession ses) {
@@ -46,7 +46,7 @@ public class controller {
         return utils.openAPIStockName(param, arrList);
     }
 
-    // 회사 단축코드 검색
+    // 회사 단축코드로 검색
     @GetMapping("/searchCode")
     @ResponseBody
     public StockDTO getStockCode(@RequestParam String param, HttpSession ses) {

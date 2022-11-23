@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -44,7 +45,7 @@ public class Utils{
     }
 
     /*
-     * 1.회사명 (C->S)
+     * 1.회사명 (C->S) 클라이언트 -> 서버
      * 2.회사명으로 코드 찾기 -> DB
      * 2.1 있을때
      *  2.1.1 KRX 요청하기 외부 api. 현재가 주가 S->KRX
@@ -60,18 +61,36 @@ public class Utils{
      * 
      */
 
+    // test method
+    public StockDTO test(String params, List<String> searchArray) {
+        StockDTO stkdto = new StockDTO();
+        String strResult = "";
+        List<String> searchArray1 = new ArrayList<>();
+        searchArray1.add(0, params + "test중입니다.");
+        if(searchArray1.size()>5){ // 5까지 저장
+            searchArray1.remove(5);
+        }
+        for(int k=0; k<searchArray1.size(); k++){
+            strResult += searchArray1.get(k) + String.format(Common.formatDel, k);
+        }
+        stkdto.setResult(strResult);
+        return stkdto;
+    }
+
+
+
     // 회사명 입력 받아서 open api에서 데이터 추출
     public StockDTO openAPIStockName(String params, List<String> searchArray){
 
         StockDTO stockDTO = new StockDTO(); // DTO
         StockData stockData = new StockData(); // DAO
         stockDTO.setCp_name(params);
+        String str = ""; // time + 회사명 + (단축코드) + 종가(하락세인지/상승세인지) + 삭제버튼
 
         // timezone
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String str = "";
         String time = df.format(date) + " | ";
         time = "<p class=csstime>" + time + "</p>"; // 입력받은 timezone css
 
@@ -149,7 +168,7 @@ public class Utils{
                         price = "<p class=redprice>" + price + "<i class=\"fa-solid fa-caret-up\"></i></p>";
                     }
                     str += time + params + "(" + cpCode  + ")  " + price + Common.formatDel;
-
+                   
                     // DTO에 전달
                     stockDTO.setCp_code(cpCode);
                     stockDTO.setSt_rate(rate);
@@ -281,12 +300,10 @@ public class Utils{
                     }
                     repo.save(stockData);
                 }
-                
                 // 객체 해제
                 br.close();
                 con.disconnect();
 
-            
             }catch(Exception e){
                 e.printStackTrace();
             }
