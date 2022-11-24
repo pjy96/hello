@@ -7,7 +7,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DAO.StockData;
+import com.example.demo.DTO.DeleteDTO;
 import com.example.demo.DTO.GetTimeDTO;
 import com.example.demo.DTO.StockDTO;
 import com.example.demo.common.Common;
@@ -45,6 +45,7 @@ public class Utils{
     }
 
     /*
+
      * 1.회사명 (C->S) 클라이언트 -> 서버
      * 2.회사명으로 코드 찾기 -> DB
      * 2.1 있을때
@@ -58,26 +59,7 @@ public class Utils{
      * 3. 받아온 결과 정리
      * 4. 정리된 값 전달 (S->C) 
      * 
-     * 
      */
-
-    // test method
-    public StockDTO test(String params, List<String> searchArray) {
-        StockDTO stkdto = new StockDTO();
-        String strResult = "";
-        List<String> searchArray1 = new ArrayList<>();
-        searchArray1.add(0, params + "test중입니다.");
-        if(searchArray1.size()>5){ // 5까지 저장
-            searchArray1.remove(5);
-        }
-        for(int k=0; k<searchArray1.size(); k++){
-            strResult += searchArray1.get(k) + String.format(Common.formatDel, k);
-        }
-        stkdto.setResult(strResult);
-        return stkdto;
-    }
-
-
 
     // 회사명 입력 받아서 open api에서 데이터 추출
     public StockDTO openAPIStockName(String params, List<String> searchArray){
@@ -86,6 +68,7 @@ public class Utils{
         StockData stockData = new StockData(); // DAO
         stockDTO.setCp_name(params);
         String str = ""; // time + 회사명 + (단축코드) + 종가(하락세인지/상승세인지) + 삭제버튼
+        String strResult = ""; // 결과창
 
         // timezone
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
@@ -99,9 +82,17 @@ public class Utils{
             for(int i=0; i<searchCPName.size(); i++){
                 String dCode = searchCPName.get(i).getCode();
                 String dPrice = searchCPName.get(i).getPrice();
-                str += "DB출력 " + time + params + "(" + dCode  + ")  " + dPrice + Common.formatDel;
-                stockDTO.setResult(str);
+                str += time + "(DB)" + params + "(" + dCode  + ")  " + dPrice; // 시간 + 회사명 + (종목코드) + 가격(등락률)
+                searchArray.add(0, str); // 배열에 저장
+                if(searchArray.size()>5){ // 5개까지 저장
+                    searchArray.remove(5);
+                }
+                for(int k=0; k<searchArray.size(); k++){ // 출력
+                    strResult += searchArray.get(k) + String.format(Common.formatDel, k);
+                }
+                stockDTO.setResult(strResult);
             }
+
         }else{ // 2. open api 호출하기
             try{
                 // URL을 만들기 위한 StringBuilder
@@ -167,13 +158,20 @@ public class Utils{
                     }else{ // 등락률이 양수이면 빨간색으로 표시
                         price = "<p class=redprice>" + price + "<i class=\"fa-solid fa-caret-up\"></i></p>";
                     }
-                    str += time + params + "(" + cpCode  + ")  " + price + Common.formatDel;
-                   
+                    str += time + params + "(" + cpCode  + ")  " + price; // 시간 + 회사명 + (종목코드) + 가격(등락률)
+                    // 출력
+                    searchArray.add(0, str); // 배열에 저장
+                    if(searchArray.size()>5){ // 5개까지 저장
+                        searchArray.remove(5);
+                    }
+                    for(int k=0; k<searchArray.size(); k++){ // 출력
+                        strResult += searchArray.get(k) + String.format(Common.formatDel, k);
+                    }
                     // DTO에 전달
                     stockDTO.setCp_code(cpCode);
                     stockDTO.setSt_rate(rate);
                     stockDTO.setSt_price(price);
-                    stockDTO.setResult(str);
+                    stockDTO.setResult(strResult);
 
                     if(cpCode != null){ // null값은 저장하지 않기
                         // DB에 저장
@@ -184,6 +182,7 @@ public class Utils{
                     }  
                     repo.save(stockData);
                 }
+
                 // 객체 해제
                 br.close();
                 con.disconnect();
@@ -201,12 +200,13 @@ public class Utils{
         StockDTO stockDTO = new StockDTO(); // DTO
         StockData stockData = new StockData(); // DAO
         stockDTO.setCp_code(params);
+        String str = ""; // time + 회사명 + (단축코드) + 종가(하락세인지/상승세인지) + 삭제버튼
+        String strResult = ""; // 결과창
 
         // timezone
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String str = "";
         String time = df.format(date) + " | ";
         time = "<p class=csstime>" + time + "</p>"; // 입력받은 timezone css
 
@@ -215,9 +215,17 @@ public class Utils{
             for(int i=0; i<searchCPCode.size(); i++){
                 String dName = searchCPCode.get(i).getName();
                 String dPrice = searchCPCode.get(i).getPrice();
-                str += "DB출력 " + time + dName + "(" + params + ")  " + dPrice + Common.formatDel;
-                stockDTO.setResult(str);
+                str += time + "(DB)" + dName + "(" + params + ")  " + dPrice; // 시간 + 회사명 + (종목코드) + 가격(등락률)
+                searchArray.add(0, str); // 배열에 저장
+                if(searchArray.size()>5){ // 5개까지 저장
+                    searchArray.remove(5);
+                }
+                for(int k=0; k<searchArray.size(); k++){ // 출력
+                    strResult += searchArray.get(k) + String.format(Common.formatDel, k);
+                }
+                stockDTO.setResult(strResult);
             }
+
         }else{ // 2. open api 호출하기
             try{
                 // URL을 만들기 위한 StringBuilder
@@ -283,14 +291,21 @@ public class Utils{
                     }else{ // 등락률이 양수이면 빨간색으로 표시
                         price = "<p class=redprice>" + price + "<i class=\"fa-solid fa-caret-up\"></i></p>";
                     }
-                    str += time + cpName + "(" + params  + ")  " + price + Common.formatDel;
-
+                    str += time + cpName + "(" + params  + ")  " + price; // 시간 + 회사명 + (종목코드) + 가격(등락률)
+                    // 출력
+                    searchArray.add(0, str); // 배열에 저장
+                    if(searchArray.size()>5){ // 5개까지 저장
+                        searchArray.remove(5);
+                    }
+                    for(int k=0; k<searchArray.size(); k++){ // 출력
+                        strResult += searchArray.get(k) + String.format(Common.formatDel, k);
+                    }
                     // DTO에 전달
                     stockDTO.setCp_name(cpName);
                     stockDTO.setSt_rate(rate);
                     stockDTO.setSt_price(price);
-                    stockDTO.setResult(str);
-
+                    stockDTO.setResult(strResult);
+    
                     if(cpName != null){ // null값은 저장하지 않기
                         // DB에 저장
                         stockData.setName(stockDTO.getCp_name());
@@ -300,6 +315,7 @@ public class Utils{
                     }
                     repo.save(stockData);
                 }
+
                 // 객체 해제
                 br.close();
                 con.disconnect();
@@ -309,6 +325,18 @@ public class Utils{
             }
         }
         return stockDTO;
+    }
+
+    // 삭제 버튼
+    public DeleteDTO deleteArray(int idx, List<String> searchArray){
+        DeleteDTO delDTO = new DeleteDTO();
+        String str = "";
+        searchArray.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
+        for(int i=0; i<searchArray.size(); i++){ // 삭제 후 배열 재출력
+            str += searchArray.get(i) + String.format(Common.formatDel, i);
+        }
+        delDTO.setResult(str);
+        return delDTO;
     }
 
 }

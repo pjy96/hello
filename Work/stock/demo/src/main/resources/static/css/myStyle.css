@@ -102,7 +102,6 @@ input:hover{
     margin: 2px;
 }
 .del{
-    padding: 5px;
     float: right; /* 오른쪽 정렬 */
     border: none;
     background: transparent;

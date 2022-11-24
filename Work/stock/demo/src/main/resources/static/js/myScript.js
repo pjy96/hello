@@ -78,7 +78,16 @@ function searchStockCode() {
 }
 
 // 삭제버튼
-function delResult(){
-    const result = document.getElementById("result"); // result 출력창
-    result.innerHTML = "";
+function delResult(idx){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/delResult?idx=" + idx,
+        success: function(idx){
+            const result = document.getElementById("result"); // result 출력창
+            result.innerHTML = idx.result; // 삭제 후 재출력
+        },
+        error: function(){
+            alert("Delete Fail");
+        }
+    })
 }
