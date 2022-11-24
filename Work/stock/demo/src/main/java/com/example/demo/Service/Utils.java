@@ -159,6 +159,7 @@ public class Utils{
                         price = "<p class=redprice>" + price + "<i class=\"fa-solid fa-caret-up\"></i></p>";
                     }
                     str += time + params + "(" + cpCode  + ")  " + price; // 시간 + 회사명 + (종목코드) + 가격(등락률)
+
                     // 출력
                     searchArray.add(0, str); // 배열에 저장
                     if(searchArray.size()>5){ // 5개까지 저장
@@ -167,19 +168,19 @@ public class Utils{
                     for(int k=0; k<searchArray.size(); k++){ // 출력
                         strResult += searchArray.get(k) + String.format(Common.formatDel, k);
                     }
+
                     // DTO에 전달
                     stockDTO.setCp_code(cpCode);
                     stockDTO.setSt_rate(rate);
                     stockDTO.setSt_price(price);
                     stockDTO.setResult(strResult);
 
-                    if(cpCode != null){ // null값은 저장하지 않기
-                        // DB에 저장
-                        stockData.setName(stockDTO.getCp_name());
-                        stockData.setCode(stockDTO.getCp_code());
-                        stockData.setRate(stockDTO.getSt_rate());
-                        stockData.setPrice(stockDTO.getSt_price());
-                    }  
+                    // DB에 저장
+                    stockData.setName(stockDTO.getCp_name());
+                    stockData.setCode(stockDTO.getCp_code());
+                    stockData.setRate(stockDTO.getSt_rate());
+                    stockData.setPrice(stockDTO.getSt_price());
+                     
                     repo.save(stockData);
                 }
 
@@ -292,6 +293,7 @@ public class Utils{
                         price = "<p class=redprice>" + price + "<i class=\"fa-solid fa-caret-up\"></i></p>";
                     }
                     str += time + cpName + "(" + params  + ")  " + price; // 시간 + 회사명 + (종목코드) + 가격(등락률)
+                    
                     // 출력
                     searchArray.add(0, str); // 배열에 저장
                     if(searchArray.size()>5){ // 5개까지 저장
@@ -300,19 +302,19 @@ public class Utils{
                     for(int k=0; k<searchArray.size(); k++){ // 출력
                         strResult += searchArray.get(k) + String.format(Common.formatDel, k);
                     }
+
                     // DTO에 전달
                     stockDTO.setCp_name(cpName);
                     stockDTO.setSt_rate(rate);
                     stockDTO.setSt_price(price);
                     stockDTO.setResult(strResult);
     
-                    if(cpName != null){ // null값은 저장하지 않기
-                        // DB에 저장
-                        stockData.setName(stockDTO.getCp_name());
-                        stockData.setCode(stockDTO.getCp_code());
-                        stockData.setRate(stockDTO.getSt_rate());
-                        stockData.setPrice(stockDTO.getSt_price());
-                    }
+                    // DB에 저장
+                    stockData.setName(stockDTO.getCp_name());
+                    stockData.setCode(stockDTO.getCp_code());
+                    stockData.setRate(stockDTO.getSt_rate());
+                    stockData.setPrice(stockDTO.getSt_price());
+                    
                     repo.save(stockData);
                 }
 
