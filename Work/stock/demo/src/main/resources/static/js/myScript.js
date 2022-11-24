@@ -28,18 +28,6 @@ setInterval(function request_Time() {
     })
 }, 1000) // 1초마다 한번씩
 
-// select 선택할때마다 다른 placeholder & input
-function ddlselect() {
-    var d = $("select").val();
-    if (d == 0) {
-        document.getElementById("d1").style.display = "inline-block";
-        document.getElementById("d2").style.display = "none";
-    }
-    else {
-        document.getElementById("d1").style.display = "none";
-        document.getElementById("d2").style.display = "inline-block";
-    }
-}
 
 // 회사명으로 입력받은 param으로 result 호출하기
 function searchStockName() {
@@ -54,24 +42,6 @@ function searchStockName() {
             },
             error: function () {
                 alert("종목명이 존재하지 않습니다.");
-            }
-        })
-    }
-}
-
-// 회사코드으로 입력받은 param으로 result 호출하기
-function searchStockCode() {
-    var input1 = $('#input1').val(); // input에서 회사코드를 입력 받은 것
-    if (window.event.keyCode == 13) {
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/searchCode?param=" + input1,
-            success: function (res) {
-                const result = document.getElementById("result");
-                result.innerHTML = res.result;
-            },
-            error: function () {
-                alert("종목코드가 존재하지 않습니다.");
             }
         })
     }
