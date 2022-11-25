@@ -69,6 +69,7 @@ public class Utils{
         stockDTO.setCp_name(params);
         String str = ""; // time + 회사명 + (단축코드) + 종가(하락세인지/상승세인지) + 삭제버튼
         String strResult = ""; // 결과창
+        List<NStockData> searchCode = repo.findByName(params); // repo에서 name = params인 Data -> List에 가져오기
         
         // timezone
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
@@ -77,22 +78,28 @@ public class Utils{
         String time = df.format(date) + " | ";
         time = "<p class=csstime>" + time + "</p>"; // 입력받은 timezone css
         
-        // 1. 입력한 데이터가 DB에 있을 때
-        // 2. open api 호출하기
+        // 1. 입력한 데이터가 DB에 있을 때 -> DB에서 회사코드 가져와서 / naverAPI에 넣어서 실시간 현재가 가져오기
+        // 2. 입력한 데이터가 DB에 없을 때 -> KRX open api에서 회사코드 가져와서 / naverAPI에 넣어서 실시간 현재가 가져오기
         
-        List<NStockData> searchCode = repo.findByName(params); // repo에서 name = params인 Data -> List에 가져오기
         if(searchCode.size() > 0){ // 입력한 회사명이 DB에 있을 때
             for(int i=0; i<searchCode.size(); i++){
                 String nCode = searchCode.get(i).getCode(); // DB에서 회사코드 가져오기
                 try {
+                    // URL을 만들기 위한 StringBuilder
                     StringBuilder uBuilder = new StringBuilder("https://polling.finance.naver.com/api/realtime/domestic/stock"); // 네이버 증권 실시간 주식 URL
+                    // 오픈 API의 요청 규격에 맞게 parameter 생성
                     uBuilder.append("/" + nCode); // params = 회사코드 입력
         
+                    // URL 객체 생성 (String으로 변환)
                     URL url = new URL(uBuilder.toString());
+                    // 요청하고자 하는 url과 통신하기위한 connection 생성
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    // 통신을 위한 메소드 set
                     conn.setRequestMethod("GET");
+                    // 통신을 위한 Content-type SET (JSON)
                     conn.setRequestProperty("Content-Type", "application/json");
         
+                    // 전달받은 데이터를 BufferedReader 객체로 저장
                     BufferedReader br;
                     if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300){
                         br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -100,29 +107,33 @@ public class Utils{
                         br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                     }
         
+                    // 저장된 데이터를 라인별로 읽어 StringBuilder 객체로 저장
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null){
                         sb.append(line);
                     }
-                    String result = sb.toString();
+                    String result = sb.toString(); // 문자열로 바꾸기
         
+                    // 문자열 형태의 JSON을 파싱하기 위한 JSONParser 객체 생성 & 문자열을 JSON 형태로 JSONArray에 저장
                     JSONParser jParser = new JSONParser();
                     JSONObject jObj = (JSONObject)jParser.parse(result);
         
+                    // datas 데이터 파싱
                     JSONArray parse_datas = (JSONArray) jObj.get("datas");
                     JSONObject nStock;
         
+                    // 실시간 가격과 등락률 가져오기
                     for(int k=0; k<parse_datas.size(); k++){
                         nStock = (JSONObject) parse_datas.get(k);
                         String nStockPrice = (String)nStock.get("closePrice"); // 현재가
                         String nStockRatio = (String)nStock.get("fluctuationsRatio"); // 등락률
         
-                        if(nStockRatio.contains("-")){ // 등락률이 음수이면 파란색으로 표시
+                        if(nStockRatio.contains("-")){ // 등락률: 음수 -> 파란색
                             nStockPrice = "<p class=blueprice>" + nStockPrice + "<i class=\"fa-solid fa-caret-down\"></i></p>";
-                        }else if(nStockRatio.equals("0")) { // 등락률이 0이면 검정색으로 표시
+                        }else if(nStockRatio.equals("0")) { // 등락률: 0 -> 검정색
                             nStockPrice = "<p class=blackprice>" + nStockPrice + "</p>";
-                        }else{ // 등락률이 양수이면 빨간색으로 표시
+                        }else{ // 등락률: 양수 -> 빨간색
                             nStockPrice = "<p class=redprice>" + nStockPrice + "<i class=\"fa-solid fa-caret-up\"></i></p>";
                         }
 
@@ -135,9 +146,6 @@ public class Utils{
                             strResult += searchArray.get(n) + String.format(Common.formatDel, n);
                         }
                         // DTO에 전달
-                        stockDTO.setCp_code(nCode);
-                        stockDTO.setSt_price(nStockPrice);
-                        stockDTO.setSt_rate(nStockRatio);
                         stockDTO.setResult(strResult);
                     }
 
@@ -208,7 +216,6 @@ public class Utils{
                     stock = (JSONObject) parse_item.get(i);
                     String code = (String)stock.get("srtnCd"); // 회사 단축 코드
                     String cpCode = code.substring(1); // 앞 문자 자르기
-
                     stockDTO.setCp_code(cpCode); // stockDTO에 cpCode 저장
                 }
                 // 객체 해제
@@ -255,16 +262,15 @@ public class Utils{
                     String nStockPrice = (String)nStock.get("closePrice"); // 현재가
                     String nStockRatio = (String)nStock.get("fluctuationsRatio"); // 등락률
     
-                    if(nStockRatio.contains("-")){ // 등락률이 음수이면 파란색으로 표시
+                    if(nStockRatio.contains("-")){ // 등락률: 음수 -> 파란색
                         nStockPrice = "<p class=blueprice>" + nStockPrice + "<i class=\"fa-solid fa-caret-down\"></i></p>";
-                    }else if(nStockRatio.equals("0")) { // 등락률이 0이면 검정색으로 표시
+                    }else if(nStockRatio.equals("0")) { // 등락률: 0 -> 검정색
                         nStockPrice = "<p class=blackprice>" + nStockPrice + "</p>";
-                    }else{ // 등락률이 양수이면 빨간색으로 표시
+                    }else{ // 등락률: 양수 -> 빨간색
                         nStockPrice = "<p class=redprice>" + nStockPrice + "<i class=\"fa-solid fa-caret-up\"></i></p>";
                     }
-                    str += time + params + "(" + pCode  + ")  " + nStockPrice; // 시간 + 회사명 + (종목코드) + 가격(등락률)
+                    str += time + params + "(" + pCode  + ")  " + nStockPrice; // 시간 + 회사명(종목코드) + 가격(등락률)
                     
-                    // 출력
                     searchArray.add(0, str); // 배열에 저장
                     if(searchArray.size()>5){ // 5개까지 저장
                         searchArray.remove(5);
@@ -274,8 +280,6 @@ public class Utils{
                     }
         
                     // DTO에 전달
-                    stockDTO.setSt_rate(nStockRatio);
-                    stockDTO.setSt_price(nStockPrice);
                     stockDTO.setResult(strResult);
 
                     // DB에 저장
@@ -297,7 +301,7 @@ public class Utils{
     // 삭제 버튼
     public DeleteDTO deleteArray(int idx, List<String> searchArray){
         DeleteDTO delDTO = new DeleteDTO();
-        String str = "";
+        String str = ""; // 결과창
         searchArray.remove(idx); // 입력받은 idx에 해당하는 배열 삭제
         for(int i=0; i<searchArray.size(); i++){ // 삭제 후 배열 재출력
             str += searchArray.get(i) + String.format(Common.formatDel, i);
